@@ -108,6 +108,11 @@ ml_realsrcdir=${srcdir}
 ml_verbose=--verbose
 for option in ${ac_configure_args}
 do
+  # strip single quotes surrounding individual options
+  case $option in
+  \'*\') eval option=$option ;;
+  esac
+
   case $option in
   --*) ;;
   -*) option=-$option ;;
@@ -215,13 +220,14 @@ done
 
 case "${host}" in
 arc-*-elf*)
-	if [ x$enable_biendian != xyes ]
+	if [ x$enable_biendian = xno ]
 	then
-	  old_multidirs=${multidirs}
+	  old_multidirs="${multidirs}"
 	  multidirs=""
 	  for x in ${old_multidirs}; do
-	    case "${x}" in
-	      *be*) : ;;
+	    case "$x" in
+	      *le* ) : ;;
+	      *be* ) : ;;
 	      *) multidirs="${multidirs} ${x}" ;;
 	    esac
 	  done

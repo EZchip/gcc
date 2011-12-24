@@ -979,6 +979,8 @@ sys_lib_dlsearch_path_spec="/lib /usr/lib"
 sys_lib_search_path_spec="/lib /usr/lib /usr/local/lib"
 
 echo $ac_n "checking dynamic linker characteristics... $ac_c" 1>&6
+
+
 case $host_os in
 aix3*)
   version_type=linux
@@ -1274,6 +1276,24 @@ linux-gnu*)
   dynamic_linker='GNU/Linux ld.so'
   ;;
 
+# This must be Linux ELF.
+linux-uclibc)
+  version_type=linux
+  need_lib_prefix=no
+  need_version=no
+  library_names_spec='${libname}${release}.so$versuffix ${libname}${release}.so$major $libname.so'
+  soname_spec='${libname}${release}.so$major'
+  finish_cmds='PATH="\$PATH:/sbin" ldconfig -n $libdir'
+  shlibpath_var=LD_LIBRARY_PATH
+  shlibpath_overrides_runpath=no
+  # This implies no fast_install, which is unacceptable.
+  # Some rework will be needed to allow for fast_install
+  # before this can be enabled.
+  hardcode_into_libs=yes
+
+  dynamic_linker='uClibc/Linux ld-uClibc.so.0'
+  ;;
+
 netbsd*)
   need_lib_prefix=no
   need_version=no
@@ -1413,11 +1433,15 @@ sysv4*MP*)
   ;;
 
 *)
+
   dynamic_linker=no
   ;;
 esac
+
+
 echo "$ac_t$dynamic_linker" 1>&6
 test "$dynamic_linker" = no && can_build_shared=no
+
 
 # Check for command to grab the raw symbol name followed by C symbol from nm.
 echo $ac_n "checking command to parse $NM output... $ac_c" 1>&6
@@ -1602,8 +1626,10 @@ cygwin* | mingw* | pw32* | os2*)
 ;;
 esac
 
+
 echo $ac_n "checking whether to build shared libraries... $ac_c" 1>&6
 test "$can_build_shared" = "no" && enable_shared=no
+
 
 # On AIX, shared libraries and static libraries use the same namespace, and
 # are all built from PIC.

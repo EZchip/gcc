@@ -129,7 +129,7 @@
 .\" ========================================================================
 .\"
 .IX Title "GCC 1"
-.TH GCC 1 "2007-07-19" "gcc-4.2.1" "GNU"
+.TH GCC 1 "2007-03-17" "gcc-4.2.0" "GNU"
 .SH "NAME"
 gcc \- GNU project C and C++ compiler
 .SH "SYNOPSIS"
@@ -703,11 +703,9 @@ See \s-1RS/6000\s0 and PowerPC Options.
 \&\-mwarn\-framesize  \-mwarn\-dynamicstack  \-mstack\-size \-mstack\-guard\fR
 .Sp
 \&\fIScore Options\fR
-\&\fB\-meb \-mel 
-\&\-mnhwloop 
-\&\-muls 
+\&\fB\-mel \-mel 
 \&\-mmac 
-\&\-mscore5 \-mscore5u \-mscore7 \-mscore7d\fR
+\&\-mscore5u \-mscore7\fR
 .Sp
 \&\fI\s-1SH\s0 Options\fR
 \&\fB\-m1  \-m2  \-m2e  \-m3  \-m3e 
@@ -2630,10 +2628,7 @@ perfectly safe if the values of the variables involved are such that
 overflow never does, in fact, occur.  Therefore this warning can
 easily give a false positive: a warning about code which is not
 actually a problem.  To help focus on important issues, several
-warning levels are defined.  No warnings are issued for the use of
-undefined signed overflow when estimating how many iterations a loop
-will require, in particular when determining whether a loop will be
-executed at all.
+warning levels are defined.
 .RS 4
 .IP "@option<\-Wstrict\-overflow=1>" 4
 .IX Item "@option<-Wstrict-overflow=1>"
@@ -3436,26 +3431,31 @@ analysis.  The option is a synonym for \fB\-fprofile\-arcs\fR
 \&\fB\-ftest\-coverage\fR (when compiling) and \fB\-lgcov\fR (when
 linking).  See the documentation for those options for more details.
 .RS 4
-.IP "*" 4
+.IP "@bullet" 4
+.IX Item "@bullet"
 Compile the source files with \fB\-fprofile\-arcs\fR plus optimization
 and code generation options.  For test coverage analysis, use the
 additional \fB\-ftest\-coverage\fR option.  You do not need to profile
 every source file in a program.
-.IP "*" 4
+.IP "@cvmmfu" 4
+.IX Item "@cvmmfu"
 Link your object files with \fB\-lgcov\fR or \fB\-fprofile\-arcs\fR
 (the latter implies the former).
-.IP "*" 4
+.IP "@dwnngv" 4
+.IX Item "@dwnngv"
 Run the program on a representative workload to generate the arc profile
 information.  This may be repeated any number of times.  You can run
 concurrent instances of your program, and provided that the file system
 supports locking, the data files will be correctly updated.  Also
 \&\f(CW\*(C`fork\*(C'\fR calls are detected and correctly handled (double counting
 will not happen).
-.IP "*" 4
+.IP "@exoohw" 4
+.IX Item "@exoohw"
 For profile-directed optimizations, compile the source files again with
 the same optimization and code generation options plus
 \&\fB\-fbranch\-probabilities\fR.
-.IP "*" 4
+.IP "@fyppix" 4
+.IX Item "@fyppix"
 For test coverage analysis, use \fBgcov\fR to produce human readable
 information from the \fI.gcno\fR and \fI.gcda\fR files.  Refer to the
 \&\fBgcov\fR documentation for further information.
@@ -4306,7 +4306,7 @@ Force memory operands to be copied into registers before doing
 arithmetic on them.  This produces better code by making all memory
 references potential common subexpressions.  When they are not common
 subexpressions, instruction combination should eliminate the separate
-register\-load. This option is now a nop and will be removed in 4.3.
+register\-load. This option is now a nop and will be removed in 4.2.
 .IP "\fB\-fforce\-addr\fR" 4
 .IX Item "-fforce-addr"
 Force memory address constants to be copied into registers before
@@ -6070,6 +6070,7 @@ comment, or whenever a backslash-newline appears in a \fB//\fR comment.
 (Both forms have the same effect.)
 .IP "\fB\-Wtrigraphs\fR" 4
 .IX Item "-Wtrigraphs"
+@anchor{Wtrigraphs}
 Most trigraphs in comments cannot affect the meaning of the program.
 However, a trigraph that would form an escaped newline (\fB??/\fR at
 the end of a line) can, by changing where the comment begins or ends.
@@ -6184,6 +6185,8 @@ This implies that the choice of angle brackets or double quotes in an
 \&\fB#include\fR directive does not in itself determine whether that
 header will appear in \fB\-MM\fR dependency output.  This is a
 slight change in semantics from \s-1GCC\s0 versions 3.0 and earlier.
+.Sp
+@anchor{dashMF}
 .IP "\fB\-MF\fR \fIfile\fR" 4
 .IX Item "-MF file"
 When used with \fB\-M\fR or \fB\-MM\fR, specifies a
@@ -6465,6 +6468,7 @@ Search \fIdir\fR only for header files requested with
 \&\fB\-I\fR and before the standard system directories.
 .IP "\fB\-fdollars\-in\-identifiers\fR" 4
 .IX Item "-fdollars-in-identifiers"
+@anchor{fdollars\-in\-identifiers}
 Accept \fB$\fR in identifiers.
 .IP "\fB\-fextended\-identifiers\fR" 4
 .IX Item "-fextended-identifiers"
@@ -9134,9 +9138,7 @@ Generate code for a 32\-bit or 64\-bit environment.
 The 32\-bit environment sets int, long and pointer to 32 bits and
 generates code that runs on any i386 system.
 The 64\-bit environment sets int to 32 bits and long and pointer
-to 64 bits and generates code for \s-1AMD\s0's x86\-64 architecture. For
-darwin only the \-m64 option turns off the \fB\-fno\-pic\fR and
-\&\fB\-mdynamic\-no\-pic\fR options.
+to 64 bits and generates code for \s-1AMD\s0's x86\-64 architecture.
 .IP "\fB\-mno\-red\-zone\fR" 4
 .IX Item "-mno-red-zone"
 Do not use a so called red zone for x86\-64 code.  The red zone is mandated
@@ -11573,33 +11575,21 @@ at an address aligned to the value given by \fIstack-size\fR.
 .IX Subsection "Score Options"
 .PP
 These options are defined for Score implementations:
-.IP "\fB\-meb\fR" 4
-.IX Item "-meb"
-Compile code for big endian mode.  This is the default.
 .IP "\fB\-mel\fR" 4
 .IX Item "-mel"
 Compile code for little endian mode. 
-.IP "\fB\-mnhwloop\fR" 4
-.IX Item "-mnhwloop"
-Disable generate bcnz instruction.
-.IP "\fB\-muls\fR" 4
-.IX Item "-muls"
-Enable generate unaligned load and store instruction.
+.IP "\fB\-meb\fR" 4
+.IX Item "-meb"
+Compile code for big endian mode.  This is the default.
 .IP "\fB\-mmac\fR" 4
 .IX Item "-mmac"
 Enable the use of multiply-accumulate instructions. Disabled by default. 
-.IP "\fB\-mscore5\fR" 4
-.IX Item "-mscore5"
-Specify the \s-1SCORE5\s0 as the target architecture.
 .IP "\fB\-mscore5u\fR" 4
 .IX Item "-mscore5u"
 Specify the \s-1SCORE5U\s0 of the target architecture.
 .IP "\fB\-mscore7\fR" 4
 .IX Item "-mscore7"
-Specify the \s-1SCORE7\s0 as the target architecture. This is the default.
-.IP "\fB\-mscore7d\fR" 4
-.IX Item "-mscore7d"
-Specify the \s-1SCORE7D\s0 as the target architecture.
+Specify the \s-1SCORE7\s0 of the target architecture. This is the default.
 .PP
 \fI\s-1SH\s0 Options\fR
 .IX Subsection "SH Options"

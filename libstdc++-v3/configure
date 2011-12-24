@@ -110252,11 +110252,12 @@ echo "${ECHO_T}$gxx_include_dir" >&6
   WARN_FLAGS='-Wall -Wextra -Wwrite-strings -Wcast-qual'
 
 
+echo "irf-mark 1"
+echo "enable_shared= "
+echo $enable_shared
 
-if ${CONFIG_SHELL-/bin/sh} ./libtool --tag CXX --features |
-   grep "enable shared" > /dev/null;
-then
-  LIBSUPCXX_PICFLAGS=-prefer-pic
+if test "$enable_shared" = yes; then
+  LIBSUPCXX_PICFLAGS="-prefer-pic"
 else
   LIBSUPCXX_PICFLAGS=
 fi

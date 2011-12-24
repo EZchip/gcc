@@ -743,6 +743,9 @@ struct gcc_target
   enum reg_class (*secondary_reload) (bool, rtx, enum reg_class,
 				      enum machine_mode,
 				      struct secondary_reload_info *);
+  /* Return true if a reload loading IN should share a reload register
+     with an unrelated output reload.  */
+  bool (*preserve_reload_p) (rtx in);
 
   /* Functions specific to the C++ frontend.  */
   struct cxx {

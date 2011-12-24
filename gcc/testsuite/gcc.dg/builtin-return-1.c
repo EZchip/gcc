@@ -19,6 +19,8 @@ int bar(int n)
 
 int main(void)
 {
+  char dummy[64]; /* Make sure we have 64 bytes of stack to copy.  */
+
   if (bar(1) != 2)
     abort();
 

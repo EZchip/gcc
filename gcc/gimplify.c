@@ -3057,7 +3057,7 @@ gimplify_init_constructor (tree *expr_p, tree *pre_p,
 	    else
 	      align = TYPE_ALIGN (type);
 
-	    if (size > 0 && !can_move_by_pieces (size, align))
+	    if (size > 0 && !can_move_by_pieces (size, align, 1))
 	      {
 		tree new = create_tmp_var_raw (type, "C");
 
