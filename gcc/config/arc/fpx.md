@@ -1,5 +1,5 @@
 ;; Machine description of the Argonaut ARC cpu Floating Point extensions for GNU C compiler
-;; Copyright (C) 2007 Celunite, Inc.
+;; Copyright (C) 2007-2012 Synopsys inc.
 
 ;; This file is part of GCC.
 

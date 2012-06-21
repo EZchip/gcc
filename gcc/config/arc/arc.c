@@ -2,7 +2,10 @@
    Copyright (C) 1994, 1995, 1997, 2004, 2007, 2008, 2009, 2010
    Free Software Foundation, Inc.
 
-   Sources derived from work done by Sankhya Technologies (www.sankhya.com)
+   Copyright 2007-2012 Synopsys Inc.
+
+   Sources derived from work done by Sankhya Technologies (www.sankhya.com) on
+   behalf of Synopsys Inc.
 
    Position Independent Code support added,Code cleaned up, 
    Comments and Support For ARC700 instructions added by
@@ -2430,7 +2433,7 @@ arc_expand_epilogue (int sibcall_p)
 				cfun->machine->frame_info.gmask,
 				1 + sibthunk_p, &first_offset);
 	      if (sibthunk_p)
-		return;
+		goto epilogue_done;
         }
       /* If we are to restore registers, and first_offset would require
          a limm to be encoded in a PRE_MODIFY, yet we can add it with a
@@ -2515,6 +2518,14 @@ arc_expand_epilogue (int sibcall_p)
       /* Emit the return instruction.  */
       if (sibcall_p == FALSE)
 	emit_jump_insn (gen_return_i ());
+    }
+ epilogue_done:
+  if (!TARGET_EPILOGUE_CFI)
+    {
+      rtx insn;
+
+      for (insn = get_insns (); insn; insn = NEXT_INSN (insn))
+	RTX_FRAME_RELATED_P (insn) = 0;
     }
 }
 

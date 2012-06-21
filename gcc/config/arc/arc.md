@@ -2,7 +2,10 @@
 ;; Copyright (C) 1994, 1997, 1999, 2006, 2007, 2008, 2009, 2010
 ;; Free Software Foundation, Inc.
 
-;;    Sources derived from work done by Sankhya Technologies (www.sankhya.com)
+;; Copyright 2007-2012 Synopsys Inc.
+
+;; Sources derived from work done by Sankhya Technologies (www.sankhya.com) on
+;; behalf of Synopsys Inc.
 
 ;;    Position Independent Code support added,Code cleaned up, 
 ;;    Comments and Support For ARC700 instructions added by
@@ -5602,16 +5605,22 @@
 
   if (CONST_INT_P (loop_start))
     loop_start = NULL_RTX;
-  /* Size implications of the alignment will be taken care off by the
+  /* Size implications of the alignment will be taken care of by the
      alignment inserted at the loop start.  */
   if (LOOP_ALIGN (0) && INTVAL (operands[1]))
-    asm_fprintf (asm_out_file, "\t.p2align %d\\n", LOOP_ALIGN (0));
+    {
+      asm_fprintf (asm_out_file, "\t.p2align %d\\n", LOOP_ALIGN (0));
+      arc_clear_unalign ();
+    }
   if (!INTVAL (operands[1]))
     return "; LITTLE LOST LOOP";
   if (loop_start && flag_pic)
-    /* ??? Can do better for when a scratch register
-       is known.  But that would require extra testing.  */
-    return ".p2align 2\;push_s r0\;add r0,pcl,%4-.+2\;sr r0,[2]; LP_START\;add r0,pcl,.L__GCC__LP%1-.+2\;sr r0,[3]; LP_END\;pop_s r0";
+    {
+      /* ??? Can do better for when a scratch register
+	 is known.  But that would require extra testing.  */
+      arc_clear_unalign ();
+      return ".p2align 2\;push_s r0\;add r0,pcl,%4-.+2\;sr r0,[2]; LP_START\;add r0,pcl,.L__GCC__LP%1-.+2\;sr r0,[3]; LP_END\;pop_s r0";
+    }
   /* Check if the loop end is in range to be set by the lp instruction.  */
   size = INTVAL (operands[3]) < 2 ? 0 : 2048;
   for (scan = insn; scan && size < 2048; scan = NEXT_INSN (scan))
@@ -5666,14 +5675,20 @@
 	n_insns += (len > 4 ? 2 : (len ? 1 : 0));
     }
   if (LOOP_ALIGN (0))
-    asm_fprintf (asm_out_file, "\t.p2align %d\\n", LOOP_ALIGN (0));
+    {
+      asm_fprintf (asm_out_file, "\t.p2align %d\\n", LOOP_ALIGN (0));
+      arc_clear_unalign ();
+    }
   gcc_assert (n_insns || GET_CODE (next_nonnote_insn (insn)) == CODE_LABEL);
   if (size >= 2048 || (TARGET_ARC600 && n_insns == 1) || loop_start)
     {
       if (flag_pic)
-	/* ??? Can do better for when a scratch register
-	   is known.  But that would require extra testing.  */
-	return ".p2align 2\;push_s r0\;add r0,pcl,24\;sr r0,[2]; LP_START\;add r0,pcl,.L__GCC__LP%1-.+2\;sr r0,[3]; LP_END\;pop_s r0";
+	{
+	  /* ??? Can do better for when a scratch register
+	     is known.  But that would require extra testing.  */
+	  arc_clear_unalign ();
+	  return ".p2align 2\;push_s r0\;add r0,pcl,24\;sr r0,[2]; LP_START\;add r0,pcl,.L__GCC__LP%1-.+2\;sr r0,[3]; LP_END\;pop_s r0";
+	}
       output_asm_insn ((size < 2048
 			? "lp .L__GCC__LP%1" : "sr .L__GCC__LP%1,[3]; LP_END"),
 		       operands);
@@ -5697,18 +5712,20 @@
 }
   [(set_attr "type" "loop_setup")
    (set_attr_alternative "length"
-     [(if_then_else (ne (symbol_ref "TARGET_ARC600") (const_int 0))
-		    (const_int 16) (const_int 4))
+;     FIXME: length is usually 4, but we need branch shortening
+;     to get this right.
+;     [(if_then_else (ne (symbol_ref "TARGET_ARC600") (const_int 0))
+;		    (const_int 16) (const_int 4))
+     [(if_then_else (ne (symbol_ref "flag_pic") (const_int 0))
+		    (const_int 24) (const_int 16))
       (if_then_else (ne (symbol_ref "flag_pic") (const_int 0))
 		    (const_int 28) (const_int 16))
       (const_int 0)])]
-  ;; ??? strictly speaking, we should branch shorten this insn, but then
-  ;; we'd need a proper label first.  We could say it is always 24 bytes in
-  ;; length, but that would be very pessimistic; also, when the loop insn
-  ;; goes out of range, it is very likely that the same insns that have
-  ;; done so will already have made all other small offset branches go out
-  ;; of range, making the need for exact length information here mostly
-  ;; academic.
+  ;; ??? we should really branch shorten this insn, but then we'd
+  ;; need a proper label first.  N.B. the end label can not only go out
+  ;; of range when it is far away, but also when it precedes the loop -
+  ;; which, unfortunately, it sometimes does, when the loop "optimizer"
+  ;; messes things up.
 )
 
 ; operand 0 is the loop count pseudo register

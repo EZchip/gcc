@@ -1,3 +1,8 @@
+2012-04-30  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+        * config/arc/arc.md (doloop_begin_i): Use pessimistic size
+        estimation.
+
 2012-04-03  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config.sub (arceb, arc[67]0[01]eb): New configurations.

@@ -1,6 +1,7 @@
 /* ARC SIMD include file.
-   Copyright (C) 2007 Celunite, Inc.
-   Written by Saurabh Verma (saurabh.verma@celunite.com).
+   Copyright 2007-2012 Synopsys Inc.
+   Written by Saurabh Verma (saurabh.verma@celunite.com) on behalf os Synopsys
+   Inc.
 
    This file is part of GCC.
 

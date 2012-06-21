@@ -2,7 +2,10 @@
    Copyright (C) 1994, 1995, 1997, 1998, 2007, 2008, 2009, 2010
    Free Software Foundation, Inc.
 
-   Sources derived from work done by Sankhya Technologies (www.sankhya.com)
+   Copyright 2007-2012 Synopsys Inc.
+
+   Sources derived from work done by Sankhya Technologies (www.sankhya.com) on
+   behalf of Synopsys Inc.
 
    Position Independent Code support added,Code cleaned up, 
    Comments and Support For ARC700 instructions added by

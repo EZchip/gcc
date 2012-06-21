@@ -1,5 +1,7 @@
 /* Copyright 2008 Free Software Foundation, Inc.  
 
+   Copyright 2008-2012 Synopsys Inc.
+
 This file is part of GCC.
 
 GCC is free software; you can redistribute it and/or modify it under

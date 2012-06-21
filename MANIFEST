@@ -1,4 +1,4 @@
-From codito-20070401 / codito-20070406:
+From codito-20070401 / codito-20070406 on behalf of Synopsys Inc:
  added files:
   gcc/gcc/config/arc/crti.asm
   gcc/gcc/config/arc/predicates.md
@@ -30,7 +30,7 @@ From codito-20070401 / codito-20070406:
   gcc/gcc/config/arc/arc.opt
   gcc/gcc/config/arc/arc-modes.def
 
-By ARC employees:
+By ARC (now Synopsys Inc) employees:
  added files:
   gcc/gcc/config/arc/divtab-arc700.c
   gcc/gcc/config/arc/gmon
