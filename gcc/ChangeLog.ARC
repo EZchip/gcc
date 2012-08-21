@@ -1,3 +1,7 @@
+2012-08-20  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+	* config/arc/arc.h (ASM_COMMENT_START): Change to "#".
+
 2012-05-11  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.opt (mno-epilogue-cfi, mepilogue-cfi): New options.
