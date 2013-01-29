@@ -11666,6 +11666,28 @@ irq_range (const char *cstr)
   irq_ctrl_saved.irq_save_lpcount  = (lpcount == 60);
 }
 
+/* Implement ROUND_TYPE_ALIGN:
+   Make finalize_type_size behave as if STRICT_ALIGNMENT was still in force,
+   in order to avoid ABI changes relative to the ordinary ARC compiler.  */
+unsigned
+arc_round_type_align (tree type, unsigned computed, unsigned specified)
+{
+  if (!TYPE_PACKED (type)
+      && TYPE_MODE (type) != BLKmode && TYPE_MODE (type) != VOIDmode)
+    {
+      unsigned mode_align = GET_MODE_ALIGNMENT (TYPE_MODE (type));
+
+      /* Don't override a larger alignment requirement coming from a user
+	 alignment of one of the fields.  */
+      if (mode_align >= computed)
+	{
+	  TYPE_USER_ALIGN (type) = 0; /* ??? Bad place for this side effect.  */
+	  return mode_align;
+	}
+    }
+  return MAX (computed, specified);
+}
+
 struct gcc_target targetm = TARGET_INITIALIZER;
 
 #include "gt-arc.h"
