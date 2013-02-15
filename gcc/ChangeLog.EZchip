@@ -1,5 +1,11 @@
 2013-02-15  Joern Rennecke  <joern.rennecke@embecosm.com>
 
+	* config/arc/arc.md (movsi_insn <w/Cbi>): Remove position masking.
+	* config/arc/constraints.md: (Cbi): Fix 64 bit issue with 'signed'
+	values.
+
+2013-02-15  Joern Rennecke  <joern.rennecke@embecosm.com>
+
 	* config/arc/arc.c (arc_print_operand): Add directives 'p' and 's'.
 	* config/arc/arc.h (IS_POWEROF2_OR_0_P): Define.
 	* config/arc/arc.md (movsi_insn): Add w/Cbi alternative.

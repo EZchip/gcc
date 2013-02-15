@@ -686,7 +686,7 @@
    mov%? %0,%1		;4
    mov%? %0,%1		;5
    ror %0,((%1*2+1) & 0x3f) ;6
-   movbi_i.cl %0,%1 >> (%p1&~3),%p1&~3,8;7
+   movbi_i.cl %0,%1 >> %p1,%p1,8;7
    mov%? %0,%1		;8
    add %0,%S1		;9
    * return arc_get_unalign () ? \"add %0,pcl,%1-.+2\" : \"add %0,pcl,%1-.\";
