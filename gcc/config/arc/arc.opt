@@ -529,3 +529,6 @@ Enum(arc_abi_type) String(std) Value(ARC_ABI_STD)
 EnumValue
 Enum(arc_abi_type) String(pack) Value(ARC_ABI_PACK)
 
+mbitops
+Target Var(TARGET_BITOPS)
+Enable use of EZchip bit operations
