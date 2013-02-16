@@ -9,4 +9,4 @@ f (void)
 {
   bar.b = foo.b;
 }
-/* { dg-final { scan-assembler "movb_i\[ \t\]+r\[0-9\]+, *r\[0-9\]+, *r\[0-9\]+, *3, *5, *8" } } */
+/* { dg-final { scan-assembler "movb_i\[ \t\]+r\[0-5\]+, *r\[0-5\]+, *r\[0-5\]+, *3, *5, *8" } } */

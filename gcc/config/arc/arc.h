@@ -359,6 +359,8 @@ ASM_DEFOPT "%{matomic:-mlock} \
 #endif
 #endif
 
+#define TARGET_RRQ_CLASS TARGET_BITOPS
+
 /* Target machine storage layout.  */
 
 /* We want zero_extract to mean the same
@@ -701,6 +703,7 @@ enum reg_class
    SIMD_VR_REGS,		/* VR00-VR63 */
    SIMD_DMA_CONFIG_REGS,	/* DI0-DI7,DO0-DO7 */
    ARCOMPACT16_REGS,		/* 'q' */
+   ARCOMPACT16_REQ_REGS,	/* 'Rrq' */
    AC16_BASE_REGS,  		/* 'e' */
    SIBCALL_REGS,		/* "Rsc" */
    GENERAL_REGS,		/* 'r' */
@@ -731,6 +734,7 @@ enum reg_class
   "SIMD_VR_REGS",           \
   "SIMD_DMA_CONFIG_REGS",   \
   "ARCOMPACT16_REGS",  	    \
+  "ARCOMPACT16_REQ_REGS",   \
   "AC16_BASE_REGS",         \
   "SIBCALL_REGS",	    \
   "GENERAL_REGS",      	    \
@@ -761,6 +765,7 @@ enum reg_class
   {0x00000000, 0x00000000, 0xffffffff, 0xffffffff, 0x00000000},      /* 'V', VR00-VR63 Registers */	\
   {0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x0000ffff},      /* 'V', DI0-7,DO0-7 Registers */	\
   {0x0000f00f, 0x00000000, 0x00000000, 0x00000000, 0x00000000},	     /* 'q', r0-r3, r12-r15 */		\
+  {0x0000f00f, 0x00000000, 0x00000000, 0x00000000, 0x00000000},	     /* 'Rrq', r0-r3, r12-r15 */		\
   {0x1000f00f, 0x00000000, 0x00000000, 0x00000000, 0x00000000},	     /* 'e', r0-r3, r12-r15, sp */	\
   {0x1c001fff, 0x00000000, 0x00000000, 0x00000000, 0x00000000},      /* "Rsc", r0-r12 */ \
   {0x9fffffff, 0xc0000000, 0x00000000, 0x00000000, 0x00000000},      /* 'r', r0-r28, blink, ap and pcl */	\

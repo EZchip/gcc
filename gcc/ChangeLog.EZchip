@@ -1,17 +1,30 @@
 2013-02-16  Joern Rennecke  <joern.rennecke@embecosm.com>
 
+	* config/arc/arc.h (TARGET_RRQ_CLASS): Define.
+	(enum reg_class): Add ARCOMPACT16_REQ_REGS.
+	(REG_CLASS_NAMES, REG_CLASS_CONTENTS): Likewise.
+	* config/arc/arc.c (arc_conditional_register_usage):
+	Take TARGET_RRQ_CLASS / ARCOMPACT16_REQ_REGS into account.
+	* config/arc/constraints.md (Rrq): New constraint.
+	* config/arc/arc.md (extzv, insv_i, movb_i): Use Rrq constraint.
+	(movb_i_signed, movb_i_high, movb_i_high_signed): Likewise.
+	(movsi_insn) <w/Cbi>: Likewise.
+	(andsi3_i) <w/Cbf>: Likewise.  Set type to shift.
+
+2013-02-16  Joern Rennecke  <joern.rennecke@embecosm.com>
+
 	* config/arc/arc.md (movb_i_signed, movb_i_high): New patterns.
 	(movb_i_high_signed): Likewise.
 
 2013-02-16  Joern Rennecke  <joern.rennecke@embecosm.com>
 
-	* config/arc/arc.md (movsi_insn <iw/Crr,w/Cbi>): Set type to shift.
+	* config/arc/arc.md (movsi_insn) <iw/Crr,w/Cbi>: Set type to shift.
 	(extzv, insv_i): Likewise.
 	(movb_i): New pattern.
 
 2013-02-15  Joern Rennecke  <joern.rennecke@embecosm.com>
 
-	* config/arc/arc.md (movsi_insn <w/Cbi>): Remove position masking.
+	* config/arc/arc.md (movsi_insn) <w/Cbi>: Remove position masking.
 	* config/arc/constraints.md: (Cbi): Fix 64 bit issue with 'signed'
 	values.
 

@@ -70,6 +70,13 @@
   "Registers usable in ARCompact 16-bit instructions: @code{r0}-@code{r3},
    @code{r12}-@code{r15}")
 
+; EZchip bitfield instructions require registers from the r0-r3,r12-r15
+; range, and thus we need a register class and constraint that works
+; independently of size optimization.
+(define_register_constraint "Rrq" "ARCOMPACT16_REQ_REGS"
+  "Registers usable in EZchip bitfield instructions: @code{r0}-@code{r3},
+   @code{r12}-@code{r15}")
+
 (define_register_constraint "e" "AC16_BASE_REGS"
   "Registers usable as base-regs of memory addresses in ARCompact 16-bit memory
    instructions: @code{r0}-@code{r3}, @code{r12}-@code{r15}, @code{sp}")

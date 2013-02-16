@@ -1518,6 +1518,8 @@ arc_conditional_register_usage (void)
 	{
 	  if (TARGET_Q_CLASS && ((i <= 3) || ((i >= 12) && (i <= 15))))
 	    arc_regno_reg_class[i] = ARCOMPACT16_REGS;
+	  else if (TARGET_RRQ_CLASS && ((i <= 3) || ((i >= 12) && (i <= 15))))
+	    arc_regno_reg_class[i] = ARCOMPACT16_REQ_REGS;
 	  else
 	    arc_regno_reg_class[i] = GENERAL_REGS;
 	}
@@ -1539,6 +1541,9 @@ arc_conditional_register_usage (void)
       CLEAR_HARD_REG_SET(reg_class_contents [ARCOMPACT16_REGS]);
       CLEAR_HARD_REG_SET(reg_class_contents [AC16_BASE_REGS]);
     }
+  /* Likewise for TARGET_RRQ_REGS / TARGET_RRQ_CLASS.  */
+  if (!TARGET_RRQ_CLASS)
+    CLEAR_HARD_REG_SET(reg_class_contents [ARCOMPACT16_REQ_REGS]);
 
   gcc_assert (FIRST_PSEUDO_REGISTER >= 144);
 
