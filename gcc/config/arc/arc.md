@@ -705,7 +705,7 @@
    st%U0%V0 %1,%0       ;23
    st%U0%V0 %1,%0       ;24
    st%U0%V0 %S1,%0      ;25"
-  [(set_attr "type" "move,move,move,move,move,move,two_cycle_core,two_cycle_core,move,binary,binary,move,move,load,store,store,load,load,load,load,load,store,store,store,store,store")
+  [(set_attr "type" "move,move,move,move,move,move,two_cycle_core,shift,move,binary,binary,move,move,load,store,store,load,load,load,load,load,store,store,store,store,store")
    (set_attr "iscompact" "maybe,maybe,maybe,true,false,false,false,false,false,false,false,maybe_limm,false,true,true,true,true,true,true,true,false,true,false,false,false,false")
    ; Use default length for iscompact to allow for COND_EXEC.  But set length
    ; of Crr to 4.
@@ -6070,7 +6070,9 @@
 			 (match_operand:SI 2 "const_int_operand" "n")
 			 (match_operand:SI 3 "const_int_operand" "n")))]
   "TARGET_BITOPS"
-  "movb_i.cl %0,%1,0,%3,%2")
+  "movb_i.cl %0,%1,0,%3,%2"
+  [(set_attr "type" "shift")
+   (set_attr "length" "4")])
 
 (define_expand "insv"
   [(set (zero_extract:SI (match_operand:SI 0 "register_operand" "")
@@ -6096,8 +6098,21 @@
   "@
    movbi_i %0,%0,%3,%2,0,%1
    movb_i %0,%0,%3,%2,0,%1"
-  [(set_attr "length" "4")])
+  [(set_attr "type" "shift")
+   (set_attr "length" "4")])
 	      
+(define_insn "*movb_i"
+  [(set (zero_extract:SI (match_operand:SI 0 "register_operand" "+r")
+			 (match_operand:SI 1 "const_int_operand" "n")
+			 (match_operand:SI 2 "const_int_operand" "n"))
+    (zero_extract:SI (match_operand:SI 3 "register_operand" "r")
+        (match_dup 1)
+	(match_operand:SI 4 "const_int_operand" "n")))]
+  "TARGET_BITOPS"
+  "movb_i %0,%0,%3,%2,%4,%1"
+  [(set_attr "type" "shift")
+   (set_attr "length" "4")])
+
 ;; ??? we want to use mrgb_i to combine two bitfield insertions.
 ;; Can combine understand this?  Else, we'll have to use a peephole2 pattern.
 
