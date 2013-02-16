@@ -1,5 +1,14 @@
 2013-02-16  Joern Rennecke  <joern.rennecke@embecosm.com>
 
+	* config/arc/arc.h (enum reg_class): Remove ARCOMPACT16_REQ_REGS.
+	(REG_CLASS_NAMES, REG_CLASS_CONTENTS): Likewise.
+	* gcc/config/arc/arc.c (arc_conditional_register_usage):
+	Merge ARCOMPACT16_REGS and ARCOMPACT16_REQ_REGS.
+	* config/arc/constraints.md (q, Rrq): Make class conditional,
+	ARCOMPACT16_REGS or NO_REGS.
+
+2013-02-16  Joern Rennecke  <joern.rennecke@embecosm.com>
+
 	* config/arc/arc.h (TARGET_RRQ_CLASS): Define.
 	(enum reg_class): Add ARCOMPACT16_REQ_REGS.
 	(REG_CLASS_NAMES, REG_CLASS_CONTENTS): Likewise.
