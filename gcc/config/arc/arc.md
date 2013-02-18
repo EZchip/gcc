@@ -6091,7 +6091,7 @@
   [(set (zero_extract:SI (match_operand:SI 0 "register_operand" "+Rrq,Rrq")
 			 (match_operand:SI 1 "const_int_operand" "C18,n")
 			 (match_operand:SI 2 "const_int_operand" "n,n"))
-	(match_operand:SI 3 "nonmemory_operand" "P,r"))]
+	(match_operand:SI 3 "nonmemory_operand" "P,Rrq"))]
   "TARGET_BITOPS
    && (register_operand (operands[3], SImode)
        || satisfies_constraint_C18 (operands[1]))"
@@ -6167,7 +6167,8 @@
   "TARGET_BITOPS"
 {
   output_asm_insn ("mrgb_i %0,%0,%6,%2,%3,%1,%5,%7,%4", operands);
-  return arc_short_long (insn, "", "nop_s");
+  /* The ;%? updates the known unalignment.  */
+  return arc_short_long (insn, ";%?", "nop_s");
 }
   [(set_attr "type" "shift")
    (set_attr "length" "6")
