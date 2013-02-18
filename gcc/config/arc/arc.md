@@ -6096,7 +6096,7 @@
    && (register_operand (operands[3], SImode)
        || satisfies_constraint_C18 (operands[1]))"
   "@
-   movbi_i %0,%0,%3,%2,0,%1
+   movbi_i %0,%0,%3,%2,%1
    movb_i %0,%0,%3,%2,0,%1"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
