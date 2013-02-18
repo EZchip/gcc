@@ -9,6 +9,12 @@
 	* config/arc/arc.md (insv_i) <Rrq/n/n/r>: Fix last constraint to be
 	Rrq too.
 
+	* config/arc/arc.md (movb_i_high_signed+1):
+	New combine-splitter pattern.
+
+	* config/arc/arc.c (arc_expand_movmem): Take STRICT_ALIGNMENT
+	into account.
+
 2013-02-16  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.md (mrgb_i, mrgb_i+1, mrgb_i+2): New patterns.

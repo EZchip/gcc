@@ -8369,7 +8369,7 @@ arc_expand_movmem (rtx *operands)
   HOST_WIDE_INT size;
   int align = INTVAL (operands[3]);
   unsigned n_pieces;
-  int piece = align;
+  int piece = STRICT_ALIGNMENT ? align : 4;
   rtx store[2];
   rtx tmpx[2];
   int i;
