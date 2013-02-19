@@ -31,6 +31,9 @@
 	computed size agrees with mode, or when handling array/record types.
 	Abort when still a change seems indicated.
 
+	* config/arc/arc.md (extzv): Now a define_expand.
+	(extzv_i): New pattern.
+
 2013-02-18  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.md (insv_i) <Rrq/C18/n>: Remove spurious
