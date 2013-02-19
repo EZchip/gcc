@@ -1,6 +1,7 @@
 ; Options for the Synopsys DesignWare ARC port of the compiler
 ;
 ; Copyright (C) 2005, 2007-2012 Free Software Foundation, Inc.
+; Copyright 2013 Embecosm Limited
 ;
 ; This file is part of GCC.
 ;
@@ -530,5 +531,9 @@ EnumValue
 Enum(arc_abi_type) String(pack) Value(ARC_ABI_PACK)
 
 mbitops
-Target Var(TARGET_BITOPS)
+Target Report Var(TARGET_BITOPS) Init(BITOPS_DEFAULT)
 Enable use of EZchip bit operations
+
+munaligned-access
+Target Report Var(unaligned_access) Init(UNALIGNED_ACCESS_DEFAULT)
+Enable unaligned word and halfword accesses to packed data.

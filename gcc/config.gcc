@@ -1,5 +1,6 @@
 # GCC target-specific configuration file.
 # Copyright (C) 1997-2013 Free Software Foundation, Inc.
+# Copyright 2013 Embecosm Limited
 
 #This file is part of GCC.
 
@@ -889,6 +890,11 @@ arc*-*-elf*)
 	case ${with_endian} in
 	big*)	tm_defines="DRIVER_ENDIAN_SELF_SPECS=\\\"%{!EL:%{!mlittle-endian:-mbig-endian}}\\\" ${tm_defines}"
 	esac
+	case ${target} in
+	arc*-ezchip-*)
+		#tm_defines="${tm_defines} UNALIGNED_ACCESS_DEFAULT=1 BITOPS_DEFAULT=1";;
+		tm_defines="${tm_defines} BITOPS_DEFAULT=1";;
+	esac
 	;;
 arc*-*-linux-uclibc*)
 	extra_headers="arc-simd.h"
@@ -919,6 +925,11 @@ arc*-*-linux-uclibc*)
 	esac
 	case ${with_endian} in
 	big*)	tm_defines="DRIVER_ENDIAN_SELF_SPECS=\\\"%{!EL:%{!mlittle-endian:-mbig-endian}}\\\" ${tm_defines}"
+	esac
+	case ${target} in
+	arc*-ezchip-*)
+		#tm_defines="${tm_defines} UNALIGNED_ACCESS_DEFAULT=1 BITOPS_DEFAULT=1";;
+		tm_defines="${tm_defines} BITOPS_DEFAULT=1";;
 	esac
         ;;
 arm-wrs-vxworks)

@@ -1,6 +1,8 @@
 /* Definitions of target machine for GNU compiler, Synopsys DesignWare ARC cpu.
    Copyright (C) 2000, 2007-2013 Free Software Foundation, Inc.
 
+   Copyright 2013 Embecosm Limited
+
 This file is part of GCC.
 
 GCC is free software; you can redistribute it and/or modify

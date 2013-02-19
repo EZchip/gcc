@@ -8,6 +8,14 @@
 	* config/arc/arc.md (andsi_i) <Rrq/c/Cbf>: Change second constraint
 	to Rrq.
 
+	* config.gcc (arc-*-elf*, arc*-*-linux-uclibc*): Set BITOPS_DEFAULT=1
+	for ezchip.
+	* config/arc/arc.h (UNALIGNED_ACCESS_DEFAULT, BITOPS_DEFAULT):
+	Provide default as 0.
+	(STRICT_ALIGNMENT): Use unaligned_access.
+	* config/arc/arc.opt (mbitops): Use BITOPS_DEFAULT.
+	(munaligned-access): New option.
+
 2013-02-18  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.md (insv_i) <Rrq/C18/n>: Remove spurious

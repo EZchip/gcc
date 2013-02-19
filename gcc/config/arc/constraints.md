@@ -1,5 +1,6 @@
 ;; Constraint definitions for Synopsys DesignWare ARC.
 ;; Copyright (C) 2007-2013 Free Software Foundation, Inc.
+;; Copyright 2013 Embecosm Limited
 ;;
 ;; This file is part of GCC.
 ;;
