@@ -27,6 +27,10 @@
 
 	* config/arc/arc.md (mrgb_i+1, mrgb_i+2): Remove constraints.
 
+	* config/arc/arc.c (arc_round_type_align): Avoid effect when
+	computed size agrees with mode, or when handling array/record types.
+	Abort when still a change seems indicated.
+
 2013-02-18  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.md (insv_i) <Rrq/C18/n>: Remove spurious
