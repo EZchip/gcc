@@ -16,6 +16,9 @@
 	* config/arc/arc.opt (mbitops): Use BITOPS_DEFAULT.
 	(munaligned-access): New option.
 
+	* config/arc/constraints.md (Clo, Chi): New constraints.
+	* config/arc/arc.md (movsi_insn): New alternatives w/Clo and w/Chi.
+
 2013-02-18  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.md (insv_i) <Rrq/C18/n>: Remove spurious
