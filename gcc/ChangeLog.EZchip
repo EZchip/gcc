@@ -1,3 +1,8 @@
+2013-02-19  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+	* config/arc/arc.c (arc_print_operand) <'s'>): Strip off sign
+	when calculating mask.
+
 2013-02-18  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.md (insv_i) <Rrq/C18/n>: Remove spurious

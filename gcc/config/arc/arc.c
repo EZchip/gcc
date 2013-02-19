@@ -2,6 +2,8 @@
    Copyright (C) 1994, 1995, 1997, 2004, 2007-2012
    Free Software Foundation, Inc.
 
+   Copyright 2013 Embecosm Limited
+
    Sources derived from work done by Sankhya Technologies (www.sankhya.com) on
    behalf of Synopsys Inc.
 
@@ -3259,7 +3261,7 @@ arc_print_operand (FILE *file, rtx x, int code)
 	{
 	  HOST_WIDE_INT i = INTVAL (x);
 	  HOST_WIDE_INT s = exact_log2 (i & -i);
-	  fprintf (file, "%d", exact_log2 ((i >> s) + 1));
+	  fprintf (file, "%d", exact_log2 (((0xffffffffUL & i) >> s) + 1));
 	}
       else
 	output_operand_lossage ("invalid operand to %%s code");
