@@ -1,3 +1,8 @@
+2013-03-04  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+	* config/arc/arc.c (arc_round_type_align): Also avoid effect when
+	handling union types.
+
 2013-02-19  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.c (arc_print_operand) <'s'>): Strip off sign

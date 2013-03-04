@@ -11696,11 +11696,12 @@ unsigned
 arc_round_type_align (tree type, unsigned computed, unsigned specified)
 {
   if (!TYPE_PACKED (type)
-      /* Arrays / structs should already have the right alignment from
-       * their elements.  Don't increase alignment just because we can
+      /* Arrays / structs / unions should already have the right alignment
+       * from their elements.  Don't increase alignment just because we can
        * use a fancy mode now with unaligned loads allowed.  */
       && TREE_CODE (type) != ARRAY_TYPE
       && TREE_CODE (type) != RECORD_TYPE
+      && TREE_CODE (type) != UNION_TYPE
       && TYPE_MODE (type) != BLKmode && TYPE_MODE (type) != VOIDmode)
     {
       unsigned mode_align = GET_MODE_ALIGNMENT (TYPE_MODE (type));
