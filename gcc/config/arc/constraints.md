@@ -260,7 +260,7 @@
   constant that fits into 16 higher bits, for movh_i"
   (and (match_code "const_int")
        (match_test "TARGET_BITOPS")
-       (match_test "(ival & ~0xffff0000UL) == 0")))
+       (match_test "trunc_int_for_mode (ival >> 16, HImode) << 16 == ival")))
 
 (define_constraint "Cbf"
  "@internal

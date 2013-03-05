@@ -1,3 +1,11 @@
+2013-03-05  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+	* config/arc/arc.md (movsi_insn) <Cbi/Rrq>: Fix decision when we
+	are only setting the top byte.  When setting the top byte,
+	output unsigned hexadecimal constant.
+	* config/arc/constraints.md (Chi): Make behaviour independent of
+	HOST_WIDE_INT size.
+
 2013-03-04  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.c (arc_round_type_align): Also avoid effect when
