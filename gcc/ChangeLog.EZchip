@@ -1,3 +1,8 @@
+2013-03-08  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+	* config/arc/arc.md (movsi_insn) <Chi/w>: Output unsigned
+	hexadecimal constant.
+
 2013-03-05  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.md (movsi_insn) <Cbi/Rrq>: Fix decision when we

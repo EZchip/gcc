@@ -689,7 +689,7 @@
    mov%? %0,%1		;5
    ror %0,((%1*2+1) & 0x3f) ;6
    movl_i %0,%1		;7
-   movh_i %0,%1>>16	;8
+   movh_i %0,%L1>>16	;8
    * return INTVAL (operands[1]) & 0xffffff ? \"movbi_i.cl %0,%1 >> %p1,%p1,8;8\" : \"movbi_i.cl %0,%L1 >> 24,24,8;9\";
    mov%? %0,%1		;10
    add %0,%S1		;11
