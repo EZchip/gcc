@@ -1,5 +1,10 @@
 2013-03-11  Joern Rennecke  <joern.rennecke@embecosm.com>
 
+	* config/arc/arc.md (movsi_insn) <Rrq/Cbi>: Change to w/Cbi.
+	(insv_i) <Rrq/C18/n/P>: Change to w/C18/n/P.
+
+2013-03-11  Joern Rennecke  <joern.rennecke@embecosm.com>
+
 	* config/arc/arc.c (arc_print_operand) <H/L>: Fix behaviour for
 	hosts with long wider than 64 bit / differently sized HOST_WIDE_INT.
 

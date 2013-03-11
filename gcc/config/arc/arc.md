@@ -673,7 +673,7 @@
 ; insns it should lengthen the return insn.
 ; N.B. operand 1 of alternative 7 expands into pcl,symbol@gotpc .
 (define_insn "*movsi_insn"                       ;   0     1     2    3  4 5   6   7   8   9   10  11  12    13   14  15  16     17     18  19    20    21  22  23  24   25   26   27
-  [(set (match_operand:SI 0 "move_dest_operand"  "=Rcq,Rcq#q,    w,   h, w,w,  w,  w,  w,Rrq,???w, ?w,  w,Rcq#q,   w,Rcq,  S,   Us<,RcqRck,!*x,!*Rsd,!*Rcd,  r,Usd,  m,???m,VUsc,VUsc")
+  [(set (match_operand:SI 0 "move_dest_operand"  "=Rcq,Rcq#q,    w,   h, w,w,  w,  w,  w,  w,???w, ?w,  w,Rcq#q,   w,Rcq,  S,   Us<,RcqRck,!*x,!*Rsd,!*Rcd,  r,Usd,  m,???m,VUsc,VUsc")
 	(match_operand:SI 1 "move_src_operand"     "cL,   cP,Rcq#q,hCm1,cL,I,Crr,Clo,Chi,Cbi,?Rac,Cpc,Clb, ?Cal,?Cal,Uts,Rcq,RcqRck,   Us>,Usd,  Usd,  Ucd,  m,!*x,  c,?Rac, Cm3, C32"))]
   "register_operand (operands[0], SImode)
    || register_operand (operands[1], SImode)
@@ -6183,7 +6183,7 @@
 })
 
 (define_insn "*insv_i"
-  [(set (zero_extract:SI (match_operand:SI 0 "register_operand" "+Rrq,Rrq")
+  [(set (zero_extract:SI (match_operand:SI 0 "register_operand" "+w,Rrq")
 			 (match_operand:SI 1 "const_int_operand" "C18,n")
 			 (match_operand:SI 2 "const_int_operand" "n,n"))
 	(match_operand:SI 3 "nonmemory_operand" "P,Rrq"))]
