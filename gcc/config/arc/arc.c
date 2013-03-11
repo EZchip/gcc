@@ -3,6 +3,7 @@
    Free Software Foundation, Inc.
 
    Copyright 2007-2012 Synopsys Inc.
+   Copyright 2013 Embecosm Limited
 
    Sources derived from work done by Sankhya Technologies (www.sankhya.com) on
    behalf of Synopsys Inc.
@@ -1340,7 +1341,8 @@ arc_conditional_register_usage (void)
     {
       if (i < 29)
         {
-          if (TARGET_Q_CLASS && ((i <= 3) || ((i >= 12) && (i <= 15))))
+          if ((TARGET_Q_CLASS || TARGET_RRQ_CLASS)
+	      && ((i <= 3) || ((i >= 12) && (i <= 15))))
             arc_regno_reg_class[i] = ARCOMPACT16_REGS;
           else
             arc_regno_reg_class[i] = GENERAL_REGS;
@@ -1359,12 +1361,12 @@ arc_conditional_register_usage (void)
         } /* if */
     }
 
-    /* ARCOMPACT16_REGS is empty, if TARGET_Q_CLASS has not been activated.  */
-      if (!TARGET_Q_CLASS)
-      {
-	CLEAR_HARD_REG_SET(reg_class_contents [ARCOMPACT16_REGS]);
-	CLEAR_HARD_REG_SET(reg_class_contents [AC16_BASE_REGS]);
-      }
+    /* ARCOMPACT16_REGS is empty, if TARGET_Q_CLASS / TARGET_RRQ_CLASS
+       has not been activated.  */
+    if (!TARGET_Q_CLASS && !TARGET_RRQ_CLASS)
+      CLEAR_HARD_REG_SET(reg_class_contents [ARCOMPACT16_REGS]);
+    if (!TARGET_Q_CLASS)
+      CLEAR_HARD_REG_SET(reg_class_contents [AC16_BASE_REGS]);
 
     gcc_assert (FIRST_PSEUDO_REGISTER >= 144);
 
@@ -2802,6 +2804,8 @@ static int output_scaled = 0;
     'Z': log2(x+1)-1
     'z': log2
     'M': log2(~x)
+    'p': bit Position of lsb
+    's': size of bit field
     '#': condbranch delay slot suffix
     '*': jump delay slot suffix
     '?' : nonjump-insn suffix for conditional execution or short instruction
@@ -2838,7 +2842,8 @@ arc_print_operand (FILE *file,rtx x,int code)
 
     case 'z':
       if (GET_CODE (x) == CONST_INT)
-	fprintf (file, "%d",exact_log2(INTVAL (x)) );
+	fprintf (file, "%d",
+		 INTVAL (x) == -0x80000000L ? 31 : exact_log2 (INTVAL (x)));
       else
 	output_operand_lossage ("invalid operand to %%z code");
       
@@ -2850,6 +2855,24 @@ arc_print_operand (FILE *file,rtx x,int code)
       else
 	output_operand_lossage ("invalid operand to %%M code");
       
+      return;
+
+    case 'p':
+      if (GET_CODE (x) == CONST_INT)
+	fprintf (file, "%d", exact_log2 (INTVAL (x) & -INTVAL (x)));
+      else
+	output_operand_lossage ("invalid operand to %%p code");
+      return;
+
+    case 's':
+      if (GET_CODE (x) == CONST_INT)
+	{
+	  HOST_WIDE_INT i = INTVAL (x);
+	  HOST_WIDE_INT s = exact_log2 (i & -i);
+	  fprintf (file, "%d", exact_log2 (((0xffffffffUL & i) >> s) + 1));
+	}
+      else
+	output_operand_lossage ("invalid operand to %%s code");
       return;
 
     case '#' :
@@ -3010,18 +3033,15 @@ arc_print_operand (FILE *file,rtx x,int code)
       else if (GET_CODE (x) == CONST_INT
 	       || GET_CODE (x) == CONST_DOUBLE)
 	{
-	  rtx first, second;
+	  rtx low, high, word;
 
-	  split_double (x, &first, &second);
-
-	  if((WORDS_BIG_ENDIAN) == 0)
-	      fprintf (file, "0x%08lx",
-		       code == 'L' ? INTVAL (first) : INTVAL (second));
+	  if (WORDS_BIG_ENDIAN)
+	    split_double (x, &high, &low);
 	  else
+	    split_double (x, &low, &high);
+	  word = (code == 'L' ? low : high);
 	      fprintf (file, "0x%08lx",
-		       code == 'L' ? INTVAL (second) : INTVAL (first));
-	      
-	  
+		   (unsigned long) INTVAL (word) & 0xffffffffUL);
 	  }
       else
 	output_operand_lossage ("invalid operand to %%H/%%L code");
@@ -7944,7 +7964,7 @@ arc_expand_movmem (rtx *operands)
   HOST_WIDE_INT size;
   int align = INTVAL (operands[3]);
   unsigned n_pieces;
-  int piece = align;
+  int piece = STRICT_ALIGNMENT ? align : 4;
   rtx store[2];
   rtx tmpx[2];
   int i;
@@ -7953,7 +7973,7 @@ arc_expand_movmem (rtx *operands)
     return 0;
   size = INTVAL (operands[2]);
   /* move_by_pieces_ninsns is static, so we can't use it.  */
-  if (align >= 4)
+  if (align >= 4 || !STRICT_ALIGNMENT)
     n_pieces = (size + 2) / 4U + (size & 1);
   else if (align == 2)
     n_pieces = (size + 1) / 2U;
@@ -9126,6 +9146,41 @@ arc_dead_or_set_postreload_p (const_rtx insn, const_rtx reg)
 	return 1;
     }
   return 1;
+}
+
+/* Implement ROUND_TYPE_ALIGN:
+   Make finalize_type_size behave as if STRICT_ALIGNMENT was still in force,
+   in order to avoid ABI changes relative to the ordinary ARC compiler.  */
+unsigned
+arc_round_type_align (tree type, unsigned computed, unsigned specified)
+{
+  if (!TYPE_PACKED (type)
+      /* Arrays / structs / unions should already have the right alignment
+	 from their elements.  Don't increase alignment just because we can
+	 use a fancy mode now with unaligned loads allowed.  */
+      && TREE_CODE (type) != ARRAY_TYPE
+      && TREE_CODE (type) != RECORD_TYPE
+      && TREE_CODE (type) != UNION_TYPE
+      && TYPE_MODE (type) != BLKmode && TYPE_MODE (type) != VOIDmode)
+    {
+      unsigned mode_align = GET_MODE_ALIGNMENT (TYPE_MODE (type));
+
+      /* Don't override a larger alignment requirement coming from a user
+	 alignment of one of the fields.  */
+      if (mode_align > computed)
+	{
+	  /* Is this ever reached?  For now, put in some debug code.  */
+#if 1
+	  fprintf (stderr, "mode_align %d computed %d\n", mode_align, computed);
+	  debug_tree(type);
+	  fatal_error ("size implications of alignment change not quite understood");
+#else
+	  TYPE_USER_ALIGN (type) = 0; /* ??? Bad place for this side effect.  */
+	  return mode_align;
+#endif
+	}
+    }
+  return MAX (computed, specified);
 }
 
 #include "gt-arc.h"
