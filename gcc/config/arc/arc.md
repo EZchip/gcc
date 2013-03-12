@@ -6447,7 +6447,7 @@
 		     (const_int 5)
 		     (match_operand:SI 3 "const_int_operand" "n"))))]
   "TARGET_BITOPS && IS_POWEROF2_P (INTVAL (operands[1]))"
-  "decode_i.cl %0,%1,%z2,%3,1"
+  "decode_i.cl %0,%1,%z2,%3"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 
@@ -6462,7 +6462,7 @@
 		     (match_operand:SI 3 "const_int_operand" "n"))
 		   (match_operand:SI 2 "const_int_operand" "n"))))]
   "TARGET_BITOPS"
-  "decode_i.cl %0,%1,%2,%3,1"
+  "decode_i.cl %0,%1,%2,%3"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 

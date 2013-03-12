@@ -1,5 +1,10 @@
 2013-03-12  Joern Rennecke  <joern.rennecke@embecosm.com>
 
+	* config/arc/arc.md (decode_i_cl): Remove size from output pattern.
+	(decode_i_cl_plus): Likewise.
+
+2013-03-12  Joern Rennecke  <joern.rennecke@embecosm.com>
+
 	* config/arc/arc-protos.h (arc_decode_i_size): Declare.
 	(arc_decode_i_p_size): Likewise.
 	* config/arc/arc.c (arc_print_operand) <z>: Check for -0x80000000.
