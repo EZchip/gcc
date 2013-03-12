@@ -271,7 +271,7 @@
 
 (define_constraint "Cbn"
  "@internal
-  a constant integer, valid only if TARGET_BITPOS is true"
+  a constant integer, valid only if TARGET_BITOPS is true"
   (and (match_code "const_int")
        (match_test "TARGET_BITOPS")))
 
