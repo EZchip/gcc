@@ -3235,7 +3235,8 @@ arc_print_operand (FILE *file, rtx x, int code)
 
     case 'z':
       if (GET_CODE (x) == CONST_INT)
-	fprintf (file, "%d",exact_log2(INTVAL (x)) );
+	fprintf (file, "%d",
+		 INTVAL (x) == -0x80000000L ? 31 : exact_log2 (INTVAL (x)));
       else
 	output_operand_lossage ("invalid operand to %%z code");
 
@@ -11719,6 +11720,38 @@ arc_round_type_align (tree type, unsigned computed, unsigned specified)
 	}
     }
   return MAX (computed, specified);
+}
+
+/* Determine if MASK and SHIFT are suitable values for decode_i, and if so,
+   return the size of the bit field.  If not, return -1.  */
+
+int
+arc_decode_i_p_size (rtx mask, rtx shift)
+{
+  HOST_WIDE_INT m = INTVAL (mask);
+  HOST_WIDE_INT s = INTVAL (shift);
+
+  if (s < 0 || s > 31 || m >> s == 0)
+    return -1;
+  if (~m & ((1 << s) - 1))
+    return -1;
+  return exact_log2 (~(m >> s) + 1);
+}
+
+/* Determine if MASK and SHIFTED are suitable values for decode_i, and if so,
+   return the size of the bit field.  If not, return -1.  */
+
+int
+arc_decode_i_size (rtx mask, rtx shifted)
+{
+  HOST_WIDE_INT m = INTVAL (mask);
+  HOST_WIDE_INT s = exact_log2 (INTVAL (shifted) & 0xffffffff);
+
+  if (s < 0 || s > 31 || m >> s == 0)
+    return -1;
+  if (~m & ((1 << s) - 1))
+    return -1;
+  return exact_log2 (~(m >> s) + 1);
 }
 
 struct gcc_target targetm = TARGET_INITIALIZER;

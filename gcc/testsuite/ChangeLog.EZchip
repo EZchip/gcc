@@ -1,3 +1,14 @@
+2013-03-12  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+	* gcc.target/arc/decode_i-1.c, gcc.target/arc/decode_i-2.c: New files.
+	* gcc.target/arc/decode_i-3.c, gcc.target/arc/decode_i-4.c: Likewise.
+	* gcc.target/arc/decode_i-5.c, gcc.target/arc/decode_i-6.c: Likewise.
+	* gcc.target/arc/decode_i_cl-1.c: Likewise.
+	* gcc.target/arc/decode_i_cl-2.c: Likewise.
+	* gcc.target/arc/decode_i_cl-3.c: Likewise.
+	* gcc.target/arc/decode_i_cl-4.c: Likewise.
+	* gcc.target/arc/decode_i_cl-5.c: Likewise.
+
 2013-02-19  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* gcc.target/arc/movl_i-1.c: New file.

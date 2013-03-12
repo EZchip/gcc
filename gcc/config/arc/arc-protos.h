@@ -131,3 +131,5 @@ extern void arc_expand_atomic_op (enum rtx_code, rtx, rtx, rtx, rtx, rtx);
 #endif
 extern unsigned arc_round_type_align (tree type, unsigned computed,
 				      unsigned specified);
+extern int arc_decode_i_size (rtx mask, rtx shift);
+extern int arc_decode_i_p_size (rtx mask, rtx shift);

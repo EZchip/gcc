@@ -1,3 +1,13 @@
+2013-03-12  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+	* config/arc/arc-protos.h (arc_decode_i_size): Declare.
+	(arc_decode_i_p_size): Likewise.
+	* config/arc/arc.c (arc_print_operand) <z>: Check for -0x80000000.
+	(arc_decode_i_p_size, arc_decode_i_size): New functions.
+	* config/arc/arc.md (decode_i_p0_plus, decode_i_p0): New patterns.
+	(decode_i_pn_plus, decode_i_pn, decode_i_cl): Likewise.
+	(decode_i_cl_plus): Likewise.
+
 2013-03-11  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/t-ezchip: New file.
