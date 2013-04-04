@@ -9,6 +9,8 @@
 	* gcc.target/arc/setmem-3.c (scan-assembler-not "memcpy"): Add.
 	* gcc.target/arc/setmem-4.c (scan-assembler-not "memcpy"): Likewise.
 
+	* gcc.target/arc/setmem-2.c (scan-assembler-not "rodata"): Add as xfail.
+
 2013-03-12  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* gcc.target/arc/decode_i-1.c, gcc.target/arc/decode_i-2.c: New files.

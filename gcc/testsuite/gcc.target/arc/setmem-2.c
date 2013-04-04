@@ -16,3 +16,4 @@ f (char *d)
 }
 /* { dg-final { scan-assembler-not "stb"  } } */
 /* { dg-final { scan-assembler-not "memcpy"  } } */
+/* { dg-final { scan-assembler-not "rodata" { xfail *-*-*} } } */
