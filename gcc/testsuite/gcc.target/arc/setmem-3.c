@@ -10,3 +10,4 @@ f (char *d)
   memcpy (d, a, 20);
 }
 /* { dg-final { scan-assembler-not "stb"  } } */
+/* { dg-final { scan-assembler-not "memcpy"  } } */

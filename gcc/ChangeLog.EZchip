@@ -1,3 +1,8 @@
+2013-04-04  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+	* config/arc/arc.c (arc_expand_movmem): Take STRICT_ALIGNMENT
+	into account when calculating n_pieces.
+
 2013-03-12  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.md (decode_i_cl): Remove size from output pattern.

@@ -8379,7 +8379,7 @@ arc_expand_movmem (rtx *operands)
   size = INTVAL (operands[2]);
 
   /* move_by_pieces_ninsns is static, so we can't use it.  */
-  if (align >= 4)
+  if (align >= 4 || !STRICT_ALIGNMENT)
     {
       int tmp = 4;
       if (TARGET_LL64)

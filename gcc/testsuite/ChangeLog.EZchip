@@ -5,6 +5,10 @@
 	* gcc.target/arc/setmem-2.c, gcc.target/arc/setmem-3.c: New files.
 	* gcc.target/arc/setmem-4.c: Likewise.
 
+	* gcc.target/arc/setmem-2.c (scan-assembler-not "memcpy"): Remove xfail.
+	* gcc.target/arc/setmem-3.c (scan-assembler-not "memcpy"): Add.
+	* gcc.target/arc/setmem-4.c (scan-assembler-not "memcpy"): Likewise.
+
 2013-03-12  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* gcc.target/arc/decode_i-1.c, gcc.target/arc/decode_i-2.c: New files.
