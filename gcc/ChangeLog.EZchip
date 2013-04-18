@@ -27,6 +27,17 @@
 	* config/arc/arc.md (movsi_insn): Add cpu_facility
 	attr alternative "*" for w/Clo and w/Chi.
 
+2013-04-18  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+	gcc:
+	* builtins.c (fold_builtin_constant_p):
+	Consider addresses for global/static variables as constant.
+	gcc/testsuite:
+	* gcc.c-torture/execute/20130418-1.c: New test.
+	* gcc.c-torture/execute/20130418-2.c: Likewise.
+	* gcc.c-torture/execute/20130418-3.c: Likewise.
+	* gcc.c-torture/execute/20130418-4.c: Likewise.
+
 2013-04-04  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.c (arc_expand_movmem): Take STRICT_ALIGNMENT
