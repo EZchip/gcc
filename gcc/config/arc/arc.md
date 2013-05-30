@@ -736,8 +736,8 @@
    mov%? %0,%1		;3
    mov%? %0,%1		;4
    ror %0,((%1*2+1) & 0x3f) ;5
-   movl %0,%1		;6
-   movh %0,%L1>>16	;7
+   movl.cl %0,%1	;6
+   movh.cl %0,%L1>>16	;7
    * return INTVAL (operands[1]) & 0xffffff ? \"movbi.cl %0,%1 >> %p1,%p1,8;8\" : \"movbi.cl %0,%L1 >> 24,24,8;8\";
    mov%? %0,%1		;9
    add %0,%S1		;10
