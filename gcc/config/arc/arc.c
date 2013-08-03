@@ -11726,7 +11726,7 @@ arc_round_type_align (tree type, unsigned computed, unsigned specified)
    return the size of the bit field.  If not, return -1.  */
 
 int
-arc_decode_i_p_size (rtx mask, rtx shift)
+arc_decode_p_size (rtx mask, rtx shift)
 {
   HOST_WIDE_INT m = INTVAL (mask);
   HOST_WIDE_INT s = INTVAL (shift);
@@ -11742,7 +11742,7 @@ arc_decode_i_p_size (rtx mask, rtx shift)
    return the size of the bit field.  If not, return -1.  */
 
 int
-arc_decode_i_size (rtx mask, rtx shifted)
+arc_decode_size (rtx mask, rtx shifted)
 {
   HOST_WIDE_INT m = INTVAL (mask);
   HOST_WIDE_INT s = exact_log2 (INTVAL (shifted) & 0xffffffff);

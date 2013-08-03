@@ -688,9 +688,9 @@
    mov%? %0,%1		;4
    mov%? %0,%1		;5
    ror %0,((%1*2+1) & 0x3f) ;6
-   movl_i %0,%1		;7
-   movh_i %0,%L1>>16	;8
-   * return INTVAL (operands[1]) & 0xffffff ? \"movbi_i.cl %0,%1 >> %p1,%p1,8;8\" : \"movbi_i.cl %0,%L1 >> 24,24,8;9\";
+   movl %0,%1		;7
+   movh %0,%L1>>16	;8
+   * return INTVAL (operands[1]) & 0xffffff ? \"movbi.cl %0,%1 >> %p1,%p1,8;8\" : \"movbi.cl %0,%L1 >> 24,24,8;9\";
    mov%? %0,%1		;10
    add %0,%S1		;11
    * return arc_get_unalign () ? \"add %0,pcl,%1-.+2\" : \"add %0,pcl,%1-.\";
@@ -790,7 +790,7 @@
 ; reload is too stingy with reloads for Rrq/Cbf/Rrq when it sees
 ; a c/???Cal/X alternative, so we say it's c/???Cal/c instead,
 ; even if we don't need the clobber.
-(define_insn_and_split "*tst_movb_i"
+(define_insn_and_split "*tst_movb"
   [(set
      (match_operand 0 "cc_register" "")
      (match_operator 4 "zn_compare_operator"
@@ -800,7 +800,7 @@
 	(const_int 0)]))
    (clobber (match_scratch:SI 3 "=X,X,X,X,X,X,Rrq,Rrq,c"))]
   "TARGET_BITOPS"
-  "movb_i.f.cl %3,%1,%p2,%p2,%s2"
+  "movb.f.cl %3,%1,%p2,%p2,%s2"
   "reload_completed
    && (extract_constrain_insn_cached (insn), (which_alternative & ~1) != 6)"
   [(set (match_dup 0) (match_dup 4))])
@@ -899,7 +899,7 @@
    btst%? %1,%3
    btst %1,%3
    bmsk.f 0,%1,%2-1
-   movb_i.f.cl %4,%1,%3,%3,%2
+   movb.f.cl %4,%1,%3,%3,%2
    and.f 0,%1,((1<<%2)-1)<<%3"
   [(set_attr "iscompact" "maybe,false,false,false,false")
    (set_attr "type" "compare,compare,compare,shift,compare")
@@ -3125,7 +3125,7 @@
 	      ? \"extb%? %0,%1%&\" : (TARGET_V2 ? \"exth%? %0,%1%&\" : \"extw%? %0,%1%&\"));
     case 9: case 14: return \"bic%? %0,%1,%n2-1\";
     case 15:
-      return \"movb_i.cl %0,%1,%p2,%p2,%s2\";
+      return \"movb.cl %0,%1,%p2,%p2,%s2\";
     case 19:
       if (TARGET_BIG_ENDIAN)
 	{
@@ -6165,7 +6165,7 @@
 			 (match_operand:SI 2 "const_int_operand" "n")
 			 (match_operand:SI 3 "const_int_operand" "n")))]
   "TARGET_BITOPS && INTVAL (operands[2]) + INTVAL (operands[3]) <= 32"
-  "movb_i.cl %0,%1,0,%3,%2"
+  "movb.cl %0,%1,0,%3,%2"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 
@@ -6191,12 +6191,12 @@
    && (register_operand (operands[3], SImode)
        || satisfies_constraint_C18 (operands[1]))"
   "@
-   movbi_i %0,%0,%3,%2,%1
-   movb_i %0,%0,%3,%2,0,%1"
+   movbi %0,%0,%3,%2,%1
+   movb %0,%0,%3,%2,0,%1"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 	      
-(define_insn "*movb_i"
+(define_insn "*movb"
   [(set (zero_extract:SI (match_operand:SI 0 "register_operand" "+Rrq")
 			 (match_operand:SI 1 "const_int_operand" "n")
 			 (match_operand:SI 2 "const_int_operand" "n"))
@@ -6204,11 +6204,11 @@
 			 (match_dup 1)
 			 (match_operand:SI 4 "const_int_operand" "n")))]
   "TARGET_BITOPS"
-  "movb_i %0,%0,%3,%2,%4,%1"
+  "movb %0,%0,%3,%2,%4,%1"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 
-(define_insn "*movb_i_signed"
+(define_insn "*movb_signed"
   [(set (zero_extract:SI (match_operand:SI 0 "register_operand" "+Rrq")
 			 (match_operand:SI 1 "const_int_operand" "n")
 			 (match_operand:SI 2 "const_int_operand" "n"))
@@ -6216,11 +6216,11 @@
 			 (match_dup 1)
 			 (match_operand:SI 4 "const_int_operand" "n")))]
   "TARGET_BITOPS"
-  "movb_i %0,%0,%3,%2,%4,%1"
+  "movb %0,%0,%3,%2,%4,%1"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 
-(define_insn "*movb_i_high"
+(define_insn "*movb_high"
   [(set (zero_extract:SI (match_operand:SI 0 "register_operand" "+Rrq")
 			 (match_operand:SI 1 "const_int_operand" "n")
 			 (match_operand:SI 2 "const_int_operand" "n"))
@@ -6228,14 +6228,14 @@
 		     (match_operand:SI 4 "const_int_operand" "n")))]
   "TARGET_BITOPS
    && INTVAL (operands[4]) + INTVAL (operands[1]) <= 32"
-  "movb_i %0,%0,%3,%2,%4,%1"
+  "movb %0,%0,%3,%2,%4,%1"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 
 ; N.B.: when processing signed bitfields that fit in the top half of
 ; a word, gcc will use a narrow sign extending load, and in this case
 ; we will see INTVAL (operands[4]) + INTVAL (operands[1]) == 16 (or 8)
-(define_insn "*movb_i_high_signed"
+(define_insn "*movb_high_signed"
   [(set (zero_extract:SI (match_operand:SI 0 "register_operand" "+Rrq")
 			 (match_operand:SI 1 "const_int_operand" "n")
 			 (match_operand:SI 2 "const_int_operand" "n"))
@@ -6243,7 +6243,7 @@
 		     (match_operand:SI 4 "const_int_operand" "n")))]
   "TARGET_BITOPS
    && INTVAL (operands[4]) + INTVAL (operands[1]) <= 32"
-  "movb_i %0,%0,%3,%2,%4,%1"
+  "movb %0,%0,%3,%2,%4,%1"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 
@@ -6260,7 +6260,7 @@
 	(match_dup 1))]
   "operands[4] = GEN_INT (GET_MODE_BITSIZE (GET_MODE (operands[3])));")
 
-(define_insn "*mrgb_i"
+(define_insn "*mrgb"
   [(set (zero_extract:SI (match_operand:SI 0 "register_operand" "+Rrq")
 			 (match_operand:SI 1 "const_int_operand" "n")
 			 (match_operand:SI 2 "const_int_operand" "n"))
@@ -6274,7 +6274,7 @@
 			 (match_operand:SI 7 "const_int_operand" "n")))]
   "TARGET_BITOPS"
 {
-  output_asm_insn ("mrgb_i %0,%0,%6,%2,%3,%1,%5,%7,%4", operands);
+  output_asm_insn ("mrgb %0,%0,%6,%2,%3,%1,%5,%7,%4", operands);
   /* The ;%? updates the known unalignment.  */
   return arc_short_long (insn, ";%?", "nop_s");
 }
@@ -6282,7 +6282,7 @@
    (set_attr "length" "6")
    (set_attr "iscompact" "true")])
 
-;; combine fumbles combination of two movb_i patterns, and then the
+;; combine fumbles combination of two movb patterns, and then the
 ;; combination is rejected by combinable_i3pat.
 ;; Thus, we can only use a peephole2 to combine two such insns.
 
@@ -6303,7 +6303,7 @@
 			 (match_dup 5)
 			 (match_operand:SI 8 "const_int_operand" "")))]
   "TARGET_BITOPS
-   // Check that the second movb_i doesn't clobber an input of the extra insn.
+   // Check that the second movb doesn't clobber an input of the extra insn.
    && !reg_overlap_mentioned_p (operands[0], operands[9])
    // And vice versa.
    && !reg_set_p (operands[0], operands[9])
@@ -6340,53 +6340,53 @@
 		   (zero_extract:SI (match_dup 1) (match_dup 5) (match_dup 7)))])
    (match_dup 1)])
 
-; the decode_i patterns can be expressed either as having an additive constant
+; the decode patterns can be expressed either as having an additive constant
 ; in the shift count, or as shifting a power of two instead of just 1.
 ; The former matches a combination of a (presumably previously combined)
 ; bset pattern; the latter is simpler RTL, and also needed when the additive
 ; constant would be zero (i.e. the power of two is the zeroth, i.e. 1).
-(define_insn "*decode_i_p0_plus"
+(define_insn "*decode_p0_plus"
   [(set (match_operand:SI 0 "register_operand" "=Rrq")
 	(ior:SI (and:SI (match_operand:SI 1 "register_operand" "0")
 			(match_operand:SI 2 "const_int_operand" "n"))
 		(ashift:SI (const_int 1)
 		  (plus:SI (match_operand:SI 3 "register_operand" "Rrq")
 			   (match_operand:SI 4 "const_int_operand" "n")))))]
-  "TARGET_BITOPS && arc_decode_i_p_size (operands[2], operands[4]) >= 0"
+  "TARGET_BITOPS && arc_decode_p_size (operands[2], operands[4]) >= 0"
 {
   rtx xop[4];
 
   xop[0] = operands[0];
   xop[1] = operands[3];
   xop[2] = operands[4];
-  xop[3] = GEN_INT (arc_decode_i_p_size (operands[2], operands[4]));
-  output_asm_insn ("decode_i %0,%0,%1,%2,0,%3", xop);
+  xop[3] = GEN_INT (arc_decode_p_size (operands[2], operands[4]));
+  output_asm_insn ("decode %0,%0,%1,%2,0,%3", xop);
   return "";
 }
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 
-(define_insn "*decode_i_p0"
+(define_insn "*decode_p0"
   [(set (match_operand:SI 0 "register_operand" "=Rrq")
 	(ior:SI (and:SI (match_operand:SI 1 "register_operand" "0")
 			(match_operand:SI 2 "const_int_operand" "n"))
 		(ashift:SI (match_operand:SI 4 "const_int_operand" "n")
 			   (match_operand:SI 3 "register_operand" "Rrq"))))]
-  "TARGET_BITOPS && arc_decode_i_size (operands[2], operands[4]) >= 0"
+  "TARGET_BITOPS && arc_decode_size (operands[2], operands[4]) >= 0"
 {
   rtx xop[4];
 
   xop[0] = operands[0];
   xop[1] = operands[3];
   xop[2] = operands[4];
-  xop[3] = GEN_INT (arc_decode_i_size (operands[2], operands[4]));
-  output_asm_insn ("decode_i %0,%0,%1,%z2,0,%3", xop);
+  xop[3] = GEN_INT (arc_decode_size (operands[2], operands[4]));
+  output_asm_insn ("decode %0,%0,%1,%z2,0,%3", xop);
   return "";
 }
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 
-(define_insn "*decode_i_pn_plus"
+(define_insn "*decode_pn_plus"
   [(set (match_operand:SI 0 "register_operand" "=Rrq")
 	(ior:SI (and:SI (match_operand:SI 1 "register_operand" "0")
 			(match_operand:SI 2 "const_int_operand" "n"))
@@ -6396,22 +6396,22 @@
 			     (const_int 5)
 			     (match_operand:SI 5 "const_int_operand" "n"))
 			   (match_operand:SI 4 "const_int_operand" "n")))))]
-  "TARGET_BITOPS && arc_decode_i_p_size (operands[2], operands[4]) >= 0"
+  "TARGET_BITOPS && arc_decode_p_size (operands[2], operands[4]) >= 0"
 {
   rtx xop[5];
 
   xop[0] = operands[0];
   xop[1] = operands[3];
   xop[2] = operands[4];
-  xop[3] = GEN_INT (arc_decode_i_p_size (operands[2], operands[4]));
+  xop[3] = GEN_INT (arc_decode_p_size (operands[2], operands[4]));
   xop[4] = operands[5];
-  output_asm_insn ("decode_i %0,%0,%1,%2,%4,%3", xop);
+  output_asm_insn ("decode %0,%0,%1,%2,%4,%3", xop);
   return "";
 }
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 
-(define_insn "*decode_i_pn"
+(define_insn "*decode_pn"
   [(set (match_operand:SI 0 "register_operand" "=Rrq")
 	(ior:SI (and:SI (match_operand:SI 1 "register_operand" "0")
 			(match_operand:SI 2 "const_int_operand" "n"))
@@ -6420,16 +6420,16 @@
 			     (match_operand:SI 3 "register_operand" "Rrq")
 			     (const_int 5)
 			     (match_operand:SI 5 "const_int_operand" "n")))))]
-  "TARGET_BITOPS && arc_decode_i_size (operands[2], operands[4]) >= 0"
+  "TARGET_BITOPS && arc_decode_size (operands[2], operands[4]) >= 0"
 {
   rtx xop[5];
 
   xop[0] = operands[0];
   xop[1] = operands[3];
   xop[2] = operands[4];
-  xop[3] = GEN_INT (arc_decode_i_size (operands[2], operands[4]));
+  xop[3] = GEN_INT (arc_decode_size (operands[2], operands[4]));
   xop[4] = operands[5];
-  output_asm_insn ("decode_i %0,%0,%1,%z2,%4,%3", xop);
+  output_asm_insn ("decode %0,%0,%1,%z2,%4,%3", xop);
   return "";
 }
   [(set_attr "type" "shift")
@@ -6438,8 +6438,8 @@
 ;; If there is no zero extract, we can just shift a constant (a power of two)
 ;; by the register input; the constant could be subject to cse / loop
 ;; hoisting, and asl gives the register allocator more freedom, so the use
-;; of decode_i.cl in that case would be questionable.
-(define_insn "*decode_i_cl"
+;; of decode.cl in that case would be questionable.
+(define_insn "*decode_cl"
   [(set (match_operand:SI 0 "register_operand" "=Rrq")
 	(ashift:SI (match_operand:SI 2 "const_int_operand" "n")
 		   (zero_extract:SI
@@ -6447,13 +6447,13 @@
 		     (const_int 5)
 		     (match_operand:SI 3 "const_int_operand" "n"))))]
   "TARGET_BITOPS && IS_POWEROF2_P (INTVAL (operands[1]))"
-  "decode_i.cl %0,%1,%z2,%3"
+  "decode.cl %0,%1,%z2,%3"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 
 ; In this case, canonicalization inside combine doesn't go far enough, so
 ; give this alternate pattern.
-(define_insn "*decode_i_cl_plus"
+(define_insn "*decode_cl_plus"
   [(set (match_operand:SI 0 "register_operand" "=Rrq")
 	(ashift:SI (const_int 1)
 	  (plus:SI (zero_extract:SI
@@ -6462,7 +6462,7 @@
 		     (match_operand:SI 3 "const_int_operand" "n"))
 		   (match_operand:SI 2 "const_int_operand" "n"))))]
   "TARGET_BITOPS"
-  "decode_i.cl %0,%1,%2,%3"
+  "decode.cl %0,%1,%2,%3"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
 

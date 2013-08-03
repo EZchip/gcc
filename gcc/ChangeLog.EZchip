@@ -1,3 +1,25 @@
+2013-08-04  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+	* config/arc/arc.md (movsi_insn): Update EZchip instruction names.
+	(tst_movb_i, tst_bitfield, andsi3_i, extzv_i, insv_i): Likewise.
+	(movb_i, movb_i_signed, movb_i_high, *movb_i_high_signed): Likewise.
+	(mrgb_i, decode_i_p0_plus, decode_i_p0, decode_i_pn_plus): Likewise.
+	(decode_i_pn, decode_i_cl, decode_i_cl_plus): Likewise.
+	(tst_movb_i, movb_i, movb_i_signed, movb_i_high): Rename to ..
+	(tst_movb, movb, movb_signed, movb_high): .. this.
+	(movb_i_high_signed, mrgb_i, decode_i_p0_plus): Rename to ..
+	(movb_high_signed, mrgb, decode_p0_plus): .. this.
+	(decode_i_p0, decode_i_pn_plus, decode_i_pn): Rename to ..
+	(decode_p0, decode_pn_plus, decode_pn): .. this.
+	(decode_i_cl, decode_i_cl_plus): Rename to ..
+	(decode_i_cl, decode_i_cl_plus): .. this.
+	* config/arc/arc.c (arc_decode_i_p_size): Rename to ..
+	(arc_decode_p_size): .. this.  Changed all callers.
+	(arc_decode_i_size): Rename to ..
+	(arc_decode_size): .. this.  Changed all callers.
+	* arc-protos.h (arc_decode_p_size, arc_decode_size): Update name in
+	prototype.
+
 2013-08-03  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config/arc/arc.md (movsi_insn): Add cpu_facility
