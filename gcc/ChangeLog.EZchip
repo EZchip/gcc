@@ -17,8 +17,10 @@
 	(arc_decode_p_size): .. this.  Changed all callers.
 	(arc_decode_i_size): Rename to ..
 	(arc_decode_size): .. this.  Changed all callers.
-	* arc-protos.h (arc_decode_p_size, arc_decode_size): Update name in
-	prototype.
+	* config/arc/arc-protos.h (arc_decode_p_size, arc_decode_size):
+	Update name in prototype.
+
+	* config/arc/arc.md (movsi_insn): Use .cl suffix for movl / movh.
 
 2013-08-03  Joern Rennecke  <joern.rennecke@embecosm.com>
 
