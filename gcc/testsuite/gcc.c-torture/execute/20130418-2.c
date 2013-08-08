@@ -2,5 +2,5 @@ int i;
 
 int main ()
 {
-  return !__builtin_constant_p (&i);
+  return __builtin_constant_p (&i);
 }
