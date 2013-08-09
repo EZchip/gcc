@@ -25,6 +25,8 @@
 	* gcc.target/arc/movl_i-1.c: Likewise.
 	* gcc.target/arc/mrgb_i-1.c: Likewise.
 
+	* gcc.target/arc/xld.c: New file.
+
 2013-04-18  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* gcc.c-torture/execute/20130418-1.c: New test.

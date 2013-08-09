@@ -52,6 +52,7 @@ along with GCC; see the file COPYING3.  If not see
 #define SYMBOL_FLAG_SHORT_CALL	(SYMBOL_FLAG_MACH_DEP << 0)
 #define SYMBOL_FLAG_MEDIUM_CALL	(SYMBOL_FLAG_MACH_DEP << 1)
 #define SYMBOL_FLAG_LONG_CALL	(SYMBOL_FLAG_MACH_DEP << 2)
+#define SYMBOL_FLAG_CMEM	(SYMBOL_FLAG_MACH_DEP << 3)
 
 /* Check if this symbol has a long_call attribute in its declaration */
 #define SYMBOL_REF_LONG_CALL_P(X)	\
@@ -367,6 +368,9 @@ ASM_DEFOPT "%{matomic:-mlock} \
 
 #ifndef BITOPS_DEFAULT
 #define BITOPS_DEFAULT 0
+#endif
+#ifndef CMEM_DEFAULT
+#define CMEM_DEFAULT 0
 #endif
 
 #define TARGET_RRQ_CLASS TARGET_BITOPS
