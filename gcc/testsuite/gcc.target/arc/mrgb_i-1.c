@@ -10,5 +10,5 @@ f (void)
   foo.b = foo.c;
   foo.c = bar.b;
 }
-/* { dg-final { scan-assembler "mrgb_i\[ \t\]+r\[0-5\]+, *r\[0-5\]+, *r\[0-5\]+, *5, *13, *8, *13, *3, *8" { target arc-*-* } } } */
-/* { dg-final { scan-assembler "mrgb_i\[ \t\]+r\[0-5\]+, *r\[0-5\]+, *r\[0-5\]+, *19, *11, *8, *11, *21, *8" { target arceb-*-* } } } */
+/* { dg-final { scan-assembler "mrgb\[ \t\]+r\[0-5\]+, *r\[0-5\]+, *r\[0-5\]+, *5, *13, *8, *13, *3, *8" { target arc-*-* } } } */
+/* { dg-final { scan-assembler "mrgb\[ \t\]+r\[0-5\]+, *r\[0-5\]+, *r\[0-5\]+, *19, *11, *8, *11, *21, *8" { target arceb-*-* } } } */

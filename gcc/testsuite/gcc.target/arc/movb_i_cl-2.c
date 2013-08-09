@@ -8,4 +8,4 @@ f (int i)
   if (i & 0x0ffff000)
     g ();
 }
-/* { dg-final { scan-assembler "movb_i\.f\.cl" } } */
+/* { dg-final { scan-assembler "movb\.f\.cl" } } */

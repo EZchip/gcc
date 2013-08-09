@@ -8,4 +8,4 @@ f (struct foo i)
 {
   return i.b;
 }
-/* { dg-final { scan-assembler "movb_i\.cl" } } */
+/* { dg-final { scan-assembler "movb\.cl" } } */

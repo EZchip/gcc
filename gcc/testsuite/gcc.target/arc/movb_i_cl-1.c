@@ -6,4 +6,4 @@ f (int i)
 {
   return i & 0x0ffff000;
 }
-/* { dg-final { scan-assembler "movb_i\.cl" } } */
+/* { dg-final { scan-assembler "movb\.cl" } } */

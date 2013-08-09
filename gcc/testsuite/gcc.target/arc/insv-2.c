@@ -14,5 +14,5 @@ g (int j)
 {
   bar.b = j;
 }
-/* { dg-final { scan-assembler "movbi_i\[ \t\]" } } */
-/* { dg-final { scan-assembler "movb_i\[ \t\]" } } */
+/* { dg-final { scan-assembler "movbi\[ \t\]" } } */
+/* { dg-final { scan-assembler "movb\[ \t\]" } } */

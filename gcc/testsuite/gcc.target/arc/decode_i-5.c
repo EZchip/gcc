@@ -5,4 +5,4 @@ decode_i_p0 (int a, int b)
 {
   return (a & 0xfff0000f) | 16 << b;
 }
-/* { dg-final { scan-assembler "decode_i\[ \t\]" } } */
+/* { dg-final { scan-assembler "decode\[ \t\]" } } */

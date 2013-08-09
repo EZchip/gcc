@@ -17,5 +17,5 @@ g (struct foo i, int j)
   i.b = j;
   return i;
 }
-/* { dg-final { scan-assembler "movbi_i\[ \t\]" } } */
-/* { dg-final { scan-assembler "movb_i\[ \t\]" } } */
+/* { dg-final { scan-assembler "movbi\[ \t\]" } } */
+/* { dg-final { scan-assembler "movb\[ \t\]" } } */

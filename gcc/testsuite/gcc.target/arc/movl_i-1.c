@@ -13,5 +13,5 @@ g (void)
   return 0x7ff00000;
 }
 
-/* { dg-final { scan-assembler "movl_i\[ \t\]" } } */
-/* { dg-final { scan-assembler "movh_i\[ \t\]" } } */
+/* { dg-final { scan-assembler "movl\.cl\[ \t\]" } } */
+/* { dg-final { scan-assembler "movh\.cl\[ \t\]" } } */
