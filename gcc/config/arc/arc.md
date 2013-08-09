@@ -596,8 +596,8 @@
 ; The iscompact attribute allows the epilogue expander to know for which
 ; insns it should lengthen the return insn.
 (define_insn "*movqi_insn"
-  [(set (match_operand:QI 0 "move_dest_operand" "=Rcq,Rcq#q,    w,   h, w, w,???w, w,Rcq,  S,!*x,r,m,???m")
-	(match_operand:QI 1 "move_src_operand"   " cL,   cP,Rcq#q,hCm1,cL, I,?Rac,?i,  T,Rcq,Usd,m,c,?Rac"))]
+  [(set (match_operand:QI 0 "move_dest_operand" "=Rcq,Rcq#q,    w,   h, w, w,???w, w,Rcq,  S,!*x,  r,r,Ucm,m,???m")
+	(match_operand:QI 1 "move_src_operand"   " cL,   cP,Rcq#q,hCm1,cL, I,?Rac,?i,  T,Rcq,Usd,Ucm,m,  c,c,?Rac"))]
   "register_operand (operands[0], QImode)
    || register_operand (operands[1], QImode)"
   "@
@@ -612,13 +612,15 @@
    ldb%? %0,%1%&
    stb%? %1,%0%&
    ldb%? %0,%1%&
+   xldb%U1.di %0,%1
    ldb%U1%V1 %0,%1
+   xstb%U0.di %1,%0
    stb%U0%V0 %1,%0
    stb%U0%V0 %1,%0"
-  [(set_attr "type" "move,move,move,move,move,move,move,move,load,store,load,load,store,store")
-   (set_attr "iscompact" "maybe,maybe,maybe,true,false,false,false,false,true,true,true,false,false,false")
-   (set_attr "predicable" "yes,no,yes,no,yes,no,yes,yes,no,no,no,no,no,no")
-   (set_attr "cpu_facility" "*,*,arcv1,em,*,*,*,*,*,*,*,*,*,*")])
+  [(set_attr "type" "move,move,move,move,move,move,move,move,load,store,load,load,load,store,store,store")
+   (set_attr "iscompact" "maybe,maybe,maybe,true,false,false,false,false,true,true,true,false,false,false,false,false")
+   (set_attr "predicable" "yes,no,yes,no,yes,no,yes,yes,no,no,no,no,no,no,no,no")
+   (set_attr "cpu_facility" "*,*,arcv1,em,*,*,*,*,*,*,*,*,*,*,*,*")])
 
 (define_expand "movhi"
   [(set (match_operand:HI 0 "move_dest_operand" "")
@@ -627,8 +629,8 @@
   "if (prepare_move_operands (operands, HImode)) DONE;")
 
 (define_insn "*movhi_insn"
-  [(set (match_operand:HI 0 "move_dest_operand" "=Rcq,Rcq#q,    w,   h, w,w,???w,Rcq#q, w,Rcq,  S,r,m,???m,VUsc,VUsc")
-	(match_operand:HI 1 "move_src_operand"    "cL,   cP,Rcq#q,hCm1,cL,I,?Rac,   ?i,?i,  T,Rcq,m,c,?Rac, Cm3,   i"))]
+  [(set (match_operand:HI 0 "move_dest_operand" "=Rcq,Rcq#q,    w,   h, w,w,???w,Rcq#q, w,Rcq,  S,  r,r,Ucm,m,???m,VUsc,VUsc")
+	(match_operand:HI 1 "move_src_operand"    "cL,   cP,Rcq#q,hCm1,cL,I,?Rac,   ?i,?i,  T,Rcq,Ucm,m,  c,c,?Rac, Cm3,   i"))]
   "register_operand (operands[0], HImode)
    || register_operand (operands[1], HImode)
    || (CONSTANT_P (operands[1])
@@ -646,15 +648,17 @@
    mov%? %0,%S1
    * return TARGET_V2 ? \"ldh%? %0,%1%&\" : \"ldw%? %0,%1%&\";
    * return TARGET_V2 ? \"sth%? %1,%0%&\" : \"stw%? %1,%0%&\";
+   * return TARGET_EM ? \"xldh%U1.di %0,%1\" : \"xldw%U1.di %0,%1\";
    * return TARGET_V2 ? \"ldh%U1%V1 %0,%1\" : \"ldw%U1%V1 %0,%1\";
+   * return TARGET_EM ? \"xsth%U0.di %1,%0\" : \"xstw%U0.di %1,%0\";
    * return TARGET_V2 ? \"sth%U0%V0 %1,%0\" : \"stw%U0%V0 %1,%0\";
    * return TARGET_V2 ? \"sth%U0%V0 %1,%0\" : \"stw%U0%V0 %1,%0\";
    sth%U0%V0 %1,%0
    * return TARGET_V2 ? \"sth%U0%V0 %S1,%0\" : \"stw%U0%V0 %S1,%0\";"
-  [(set_attr "type" "move,move,move,move,move,move,move,move,move,load,store,load,store,store,store,store")
-   (set_attr "iscompact" "maybe,maybe,maybe,true,false,false,false,maybe_limm,false,true,true,false,false,false,false,false")
-   (set_attr "predicable" "yes,no,yes,no,yes,no,yes,yes,yes,no,no,no,no,no,no,no")
-   (set_attr "cpu_facility" "*,*,arcv1,em,*,*,*,*,*,*,*,*,*,*,em,*")])
+  [(set_attr "type" "move,move,move,move,move,move,move,move,move,load,store,load,load,store,store,store,store,store")
+   (set_attr "iscompact" "maybe,maybe,maybe,true,false,false,false,maybe_limm,false,true,true,false,false,false,false,false,false,false")
+   (set_attr "predicable" "yes,no,yes,no,yes,no,yes,yes,yes,no,no,no,no,no,no,no,no,no")
+   (set_attr "cpu_facility" "*,*,arcv1,em,*,*,*,*,*,*,*,*,*,*,*,*,em,*")])
 
 (define_expand "movsi"
   [(set (match_operand:SI 0 "move_dest_operand" "")

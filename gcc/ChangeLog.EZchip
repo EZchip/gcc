@@ -17,6 +17,9 @@
 	(cmem_address_0, cmem_address_1, cmem_address_2): New predicates.
 	(cmem_address): Likewise.
 
+	* config/arc/arc.md (movqi_insn): Add r/Ucm,Ucm/c alternatives.
+	(movhi_insn): Likewise.
+
 	* config/arc/constraints.md (Usd, Us<, Us>): Use define_constraint.
 
 2013-08-08  Joern Rennecke  <joern.rennecke@embecosm.com>
