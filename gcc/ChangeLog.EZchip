@@ -22,6 +22,10 @@
 
 	* config/arc/constraints.md (Usd, Us<, Us>): Use define_constraint.
 
+	* config/arc/arc.md (movqi_insn) <r/Ucm,Ucm/c alternatives>: Add
+	C modifier to memory operand in output templates.
+	(movhi_insn) <r/Ucm,Ucm/c alternatives>: Likewise.
+
 2013-08-08  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	embecosm bug 157

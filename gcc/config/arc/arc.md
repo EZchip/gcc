@@ -612,9 +612,9 @@
    ldb%? %0,%1%&
    stb%? %1,%0%&
    ldb%? %0,%1%&
-   xldb%U1.di %0,%1
+   xldb%U1.di %0,%C1
    ldb%U1%V1 %0,%1
-   xstb%U0.di %1,%0
+   xstb%U0.di %1,%C0
    stb%U0%V0 %1,%0
    stb%U0%V0 %1,%0"
   [(set_attr "type" "move,move,move,move,move,move,move,move,load,store,load,load,load,store,store,store")
@@ -648,9 +648,9 @@
    mov%? %0,%S1
    * return TARGET_V2 ? \"ldh%? %0,%1%&\" : \"ldw%? %0,%1%&\";
    * return TARGET_V2 ? \"sth%? %1,%0%&\" : \"stw%? %1,%0%&\";
-   * return TARGET_EM ? \"xldh%U1.di %0,%1\" : \"xldw%U1.di %0,%1\";
+   * return TARGET_EM ? \"xldh%U1.di %0,%1\" : \"xldw%U1.di %0,%C1\";
    * return TARGET_V2 ? \"ldh%U1%V1 %0,%1\" : \"ldw%U1%V1 %0,%1\";
-   * return TARGET_EM ? \"xsth%U0.di %1,%0\" : \"xstw%U0.di %1,%0\";
+   * return TARGET_EM ? \"xsth%U0.di %1,%0\" : \"xstw%U0.di %1,%C0\";
    * return TARGET_V2 ? \"sth%U0%V0 %1,%0\" : \"stw%U0%V0 %1,%0\";
    * return TARGET_V2 ? \"sth%U0%V0 %1,%0\" : \"stw%U0%V0 %1,%0\";
    sth%U0%V0 %1,%0
