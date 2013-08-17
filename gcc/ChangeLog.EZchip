@@ -1,3 +1,12 @@
+2013-08-17  Joern Rennecke  <joern.rennecke@embecosm.com>
+
+	* config/arc/arc.opt (mdecode): New option.
+	* config/arc/arc.h (TARGET_RRQ_CLASS): Also set for TARGET_DECODE.
+	* config/arc/arc.md (decode_p0_plus): Use TARGET_DECODE in pattern
+	condition.
+	(decode_p0, decode_pn_plus, decode_pn, decode_cl): Likewise.
+	(decode_cl_plus): Likewise.
+
 2013-08-10  Joern Rennecke  <joern.rennecke@embecosm.com>
 
 	* config.gcc (arc*-ezchip-*-*) <tm_defines>: Comment out

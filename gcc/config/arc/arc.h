@@ -373,7 +373,7 @@ ASM_DEFOPT "%{matomic:-mlock} \
 #define CMEM_DEFAULT 0
 #endif
 
-#define TARGET_RRQ_CLASS TARGET_BITOPS
+#define TARGET_RRQ_CLASS (TARGET_BITOPS || TARGET_DECODE)
 
 /* Target machine storage layout.  */
 

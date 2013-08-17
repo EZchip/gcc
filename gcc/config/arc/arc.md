@@ -6358,7 +6358,7 @@
 		(ashift:SI (const_int 1)
 		  (plus:SI (match_operand:SI 3 "register_operand" "Rrq")
 			   (match_operand:SI 4 "const_int_operand" "n")))))]
-  "TARGET_BITOPS && arc_decode_p_size (operands[2], operands[4]) >= 0"
+  "TARGET_DECODE && arc_decode_p_size (operands[2], operands[4]) >= 0"
 {
   rtx xop[4];
 
@@ -6378,7 +6378,7 @@
 			(match_operand:SI 2 "const_int_operand" "n"))
 		(ashift:SI (match_operand:SI 4 "const_int_operand" "n")
 			   (match_operand:SI 3 "register_operand" "Rrq"))))]
-  "TARGET_BITOPS && arc_decode_size (operands[2], operands[4]) >= 0"
+  "TARGET_DECODE && arc_decode_size (operands[2], operands[4]) >= 0"
 {
   rtx xop[4];
 
@@ -6402,7 +6402,7 @@
 			     (const_int 5)
 			     (match_operand:SI 5 "const_int_operand" "n"))
 			   (match_operand:SI 4 "const_int_operand" "n")))))]
-  "TARGET_BITOPS && arc_decode_p_size (operands[2], operands[4]) >= 0"
+  "TARGET_DECODE && arc_decode_p_size (operands[2], operands[4]) >= 0"
 {
   rtx xop[5];
 
@@ -6426,7 +6426,7 @@
 			     (match_operand:SI 3 "register_operand" "Rrq")
 			     (const_int 5)
 			     (match_operand:SI 5 "const_int_operand" "n")))))]
-  "TARGET_BITOPS && arc_decode_size (operands[2], operands[4]) >= 0"
+  "TARGET_DECODE && arc_decode_size (operands[2], operands[4]) >= 0"
 {
   rtx xop[5];
 
@@ -6452,7 +6452,7 @@
 		     (match_operand:SI 1 "register_operand" "Rrq")
 		     (const_int 5)
 		     (match_operand:SI 3 "const_int_operand" "n"))))]
-  "TARGET_BITOPS && IS_POWEROF2_P (INTVAL (operands[1]))"
+  "TARGET_DECODE && IS_POWEROF2_P (INTVAL (operands[1]))"
   "decode.cl %0,%1,%z2,%3"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])
@@ -6467,7 +6467,7 @@
 		     (const_int 5)
 		     (match_operand:SI 3 "const_int_operand" "n"))
 		   (match_operand:SI 2 "const_int_operand" "n"))))]
-  "TARGET_BITOPS"
+  "TARGET_DECODE"
   "decode.cl %0,%1,%2,%3"
   [(set_attr "type" "shift")
    (set_attr "length" "4")])

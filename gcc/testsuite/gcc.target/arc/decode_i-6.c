@@ -1,5 +1,5 @@
 /* { dg-do compile } */
-/* { dg-options "-O2 -mbitops" } */
+/* { dg-options "-O2 -mdecode" } */
 
 decode_i_pn (int a, int b)
 {
