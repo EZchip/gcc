@@ -4556,8 +4556,8 @@ arc_encode_section_info (tree decl, rtx rtl, int first)
 	  const char *sec_name
 	    = TREE_STRING_POINTER (TREE_VALUE (TREE_VALUE (sec_attr)));
 	  if (strcmp (sec_name, ".cmem") == 0
-	      || strcmp (sec_name, ".special_section_1") == 0 
-	      || strcmp (sec_name, ".special_section_2") == 0)
+	      || strcmp (sec_name, ".cmem_shared") == 0 
+	      || strcmp (sec_name, ".cmem_private") == 0)
 	  flags |= SYMBOL_FLAG_CMEM;
 	}
       SYMBOL_REF_FLAGS (symbol) = flags;

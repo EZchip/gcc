@@ -21,8 +21,8 @@ struct example_struct
   };
 };
 
-struct example_struct __attribute__((section(".special_section_1"))) e1;
-static struct example_struct __attribute__((section(".special_section_2"))) e2;
+struct example_struct __attribute__((section(".cmem_shared"))) e1;
+static struct example_struct __attribute__((section(".cmem_private"))) e2;
 static struct example_struct e4;
 
 
