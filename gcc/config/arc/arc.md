@@ -3111,35 +3111,43 @@
     && nonmemory_operand (operands[2], SImode))
    || (memory_operand (operands[1], SImode)
        && satisfies_constraint_Cux (operands[2]))"
-  "*
 {
   switch (which_alternative)
     {
     case 0: case 5: case 10: case 11: case 16: case 17: case 18:
-      return \"and%? %0,%1,%2%&\";
+      return "and%? %0,%1,%2%&";
     case 1: case 6:
-      return \"and%? %0,%2,%1%&\";
+      return "and%? %0,%2,%1%&";
     case 2:
-      return \"bmsk%? %0,%1,%Z2%&\";
+      return "bmsk%? %0,%1,%Z2%&";
     case 7: case 12:
       if (satisfies_constraint_C2p (operands[2]))
 	{
 	 operands[2] = GEN_INT ((~INTVAL (operands[2])));
-	 return \"bmskn%? %0,%1,%Z2%& ; %2\";
+	 return "bmskn%? %0,%1,%Z2%& ; %2";
 	}
       else
 	{
-	 return \"bmsk%? %0,%1,%Z2%&\";
+	 return "bmsk%? %0,%1,%Z2%&";
 	}
     case 3: case 8: case 13:
-      return \"bclr%? %0,%1,%M2%&\";
+      return "bclr%? %0,%1,%M2%&";
     case 4:
       return (INTVAL (operands[2]) == 0xff
-	      ? \"extb%? %0,%1%&\" : (TARGET_V2 ? \"exth%? %0,%1%&\" : \"extw%? %0,%1%&\"));
+	      ? "extb%? %0,%1%&" : (TARGET_V2 ? "exth%? %0,%1%&" : "extw%? %0,%1%&"));
     case 9: case 14: return \"bic%? %0,%1,%n2-1\";
     case 15:
-      return \"movb.cl %0,%1,%p2,%p2,%s2\";
+      return "movb.cl %0,%1,%p2,%p2,%s2";
+
     case 19:
+      const char *tmpl;
+
+      if (satisfies_constraint_Ucm (operands[1]))
+	tmpl = (INTVAL (operands[2]) == 0xff
+		? "xldb%U1.di %0,%C1" : "xldw%U1.di %0,%C1");
+      else
+	tmpl = INTVAL (operands[2]) == 0xff ? "ldb %0,%1" : "ldw %0,%1";
+
       if (TARGET_BIG_ENDIAN)
 	{
 	  rtx xop[2];
@@ -3147,16 +3155,14 @@
 	  xop[0] = operands[0];
 	  xop[1] = adjust_address (operands[1], QImode,
 				   INTVAL (operands[2]) == 0xff ? 3 : 2);
-	  output_asm_insn (INTVAL (operands[2]) == 0xff
-			   ? \"ldb %0,%1\" : \"ldw %0,%1\",
-			   xop);
-	  return \"\";
+	  output_asm_insn (tmpl, xop);
+	  return "";
 	}
-      return INTVAL (operands[2]) == 0xff ? \"ldb %0,%1\" : \"ldw %0,%1\";
+      return tmpl;
     default:
       gcc_unreachable ();
     }
-}"
+}
   [(set_attr "iscompact" "maybe,maybe,maybe,maybe,true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false")
    (set_attr "type" "binary,binary,binary,binary,binary,binary,binary,binary,binary,binary,binary,binary,binary,binary,binary,shift,binary,binary,binary,load")
    (set_attr "length" "*,*,*,*,*,4,4,4,4,4,4,4,4,4,4,4,4,8,8,*")
