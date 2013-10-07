@@ -678,7 +678,7 @@
 ; N.B. operand 1 of alternative 7 expands into pcl,symbol@gotpc .
 (define_insn "*movsi_insn"                       ;   0     1     2    3  4 5   6   7   8   9   10  11  12    13   14  15  16     17     18  19    20    21  22  23  24  25  26   27   28   29
   [(set (match_operand:SI 0 "move_dest_operand"  "=Rcq,Rcq#q,    w,   h, w,w,  w,  w,  w,  w,???w, ?w,  w,Rcq#q,   w,Rcq,  S,   Us<,RcqRck,!*x,!*Rsd,!*Rcd,  r,  r,Ucm,Usd,  m,???m,VUsc,VUsc")
-	(match_operand:SI 1 "move_src_operand"     "cL,   cP,Rcq#q,hCm1,cL,I,Crr,Clo,Chi,Cbi,?Rac,Cpc,Clb, ?Cal,?Cal,Uts,Rcq,RcqRck,   Us>,Usd,  Usd,  Ucd,Ucm,  m,  c,!*x,  c,?Rac, Cm3, C32"))]
+	(match_operand:SI 1 "move_src_operand"     "cL,   cP,Rcq#q,hCm1,cL,I,Crr,Clo,Chi,Cbi,?Rac,Cpc,Clb, ?Cal,?Cal,Uts,Rcq,RcqRck,   Us>,Usd,  Usd,  Ucd,Ucm,  m,  w,!*x,  c,?Rac, Cm3, C32"))]
   "register_operand (operands[0], SImode)
    || register_operand (operands[1], SImode)
    || (CONSTANT_P (operands[1])
