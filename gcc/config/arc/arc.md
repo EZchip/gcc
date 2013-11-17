@@ -612,9 +612,9 @@
    ldb%? %0,%1%&
    stb%? %1,%0%&
    ldb%? %0,%1%&
-   xldb%U1.di %0,%C1
+   xldb%U1 %0,%1
    ldb%U1%V1 %0,%1
-   xstb%U0.di %1,%C0
+   xstb%U0 %1,%0
    stb%U0%V0 %1,%0
    stb%U0%V0 %1,%0"
   [(set_attr "type" "move,move,move,move,move,move,move,move,load,store,load,load,load,store,store,store")
@@ -648,9 +648,9 @@
    mov%? %0,%S1
    * return TARGET_V2 ? \"ldh%? %0,%1%&\" : \"ldw%? %0,%1%&\";
    * return TARGET_V2 ? \"sth%? %1,%0%&\" : \"stw%? %1,%0%&\";
-   * return TARGET_EM ? \"xldh%U1.di %0,%1\" : \"xldw%U1.di %0,%C1\";
+   * return TARGET_EM ? \"xldh%U1 %0,%1\" : \"xldw%U1 %0,%1\";
    * return TARGET_V2 ? \"ldh%U1%V1 %0,%1\" : \"ldw%U1%V1 %0,%1\";
-   * return TARGET_EM ? \"xsth%U0.di %1,%0\" : \"xstw%U0.di %1,%C0\";
+   * return TARGET_EM ? \"xsth%U0 %1,%0\" : \"xstw%U0 %1,%0\";
    * return TARGET_V2 ? \"sth%U0%V0 %1,%0\" : \"stw%U0%V0 %1,%0\";
    * return TARGET_V2 ? \"sth%U0%V0 %1,%0\" : \"stw%U0%V0 %1,%0\";
    sth%U0%V0 %1,%0
@@ -707,9 +707,9 @@
    ld%? %0,%1%&		;19
    ld%? %0,%1%&		;20
    ld%? %0,%1%&		;21
-   xld%U1.di %0,%C1	;22
+   xld%U1 %0,%1		;22
    ld%U1%V1 %0,%1	;23
-   xst%U0.di %1,%C0	;24
+   xst%U0 %1,%0		;24
    st%?     %1,%0%&     ;25
    st%U0%V0 %1,%0       ;26
    st%U0%V0 %1,%0       ;27
@@ -1547,7 +1547,7 @@
    extb%? %0,%1%&
    bmsk%? %0,%1,7
    extb %0,%1
-   xldb%U1.di %0,%C1
+   xldb%U1 %0,%1
    ldb%U1 %0,%1"
   [(set_attr "type" "unary,unary,unary,unary,load,load")
    (set_attr "iscompact" "maybe,true,false,false,false,false")
@@ -1571,7 +1571,7 @@
    extb %0,%1
    ldb%? %0,%1%&
    ldb%? %0,%1%&
-   xldb%U1.di %0,%C1
+   xldb%U1 %0,%1
    ldb%U1 %0,%1"
   [(set_attr "type" "unary,unary,unary,unary,load,load,load,load")
    (set_attr "iscompact" "maybe,true,false,false,true,true,false,false")
@@ -1595,7 +1595,7 @@
    * return TARGET_V2 ? \"exth %0,%1\" : \"extw %0,%1\";
    * return TARGET_V2 ? \"ldh%? %0,%1%&\" : \"ldw%? %0,%1%&\";
    * return TARGET_V2 ? \"ldh%U1 %0,%1\" : \"ldw%U1 %0,%1\";
-   * return TARGET_EM ? \"xldh%U1%V1 %0,%1\" : \"xldw%U1.di %0,%C1\";
+   * return TARGET_EM ? \"xldh%U1%V1 %0,%1\" : \"xldw%U1 %0,%1\";
    * return TARGET_V2 ? \"ldh%U1%V1 %0,%1\" : \"ldw%U1%V1 %0,%1\";"
   [(set_attr "type" "unary,unary,unary,unary,load,load,load,load")
    (set_attr "iscompact" "maybe,true,false,false,true,false,false,false")
@@ -3144,7 +3144,7 @@
 
       if (satisfies_constraint_Ucm (operands[1]))
 	tmpl = (INTVAL (operands[2]) == 0xff
-		? "xldb%U1.di %0,%C1" : "xldw%U1.di %0,%C1");
+		? "xldb%U1 %0,%1" : "xldw%U1 %0,%1");
       else
 	tmpl = INTVAL (operands[2]) == 0xff ? "ldb %0,%1" : "ldw %0,%1";
 
