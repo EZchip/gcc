@@ -6277,7 +6277,7 @@
   [(set (match_dup 0) (zero_extend:SI (match_dup 3)))
    (set (zero_extract:SI (match_dup 0) (match_dup 4) (match_dup 2))
 	(match_dup 1))]
-  "operands[4] = GEN_INT (GET_MODE_BITSIZE (GET_MODE (operands[3])));")
+  "operands[4] = GEN_INT (32 - INTVAL (operands[2]));")
 
 (define_insn "*mrgb"
   [(set (zero_extract:SI (match_operand:SI 0 "register_operand" "+Rrq")
