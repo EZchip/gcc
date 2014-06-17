@@ -1914,7 +1914,7 @@ arc_address_cost (rtx addr, enum machine_mode, addr_space_t, bool speed)
     case LABEL_REF :
     case SYMBOL_REF :
     case CONST :
-      if (cmem_address (addr, SImode))
+      if (TARGET_CMEM && cmem_address (addr, SImode))
 	return 0;
       /* Most likely needs a LIMM.  */
       return COSTS_N_INSNS (1);
