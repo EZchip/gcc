@@ -1,3 +1,9 @@
+2014-10-08 Claudiu Zissulescu <claziss@synopsys.com>
+
+	* config/arc/arc-protos.h (arc_bdr_iscond): Declare.
+	* config/arc/arc.c (arc_bdr_iscond): New function.
+	* config/arc/arc.md: Use arc_bdr_iscond.
+
 2014-08-11 Claudiu Zissulescu <claziss@synopsys.com>
 
  	* config/arc/arc.c (arc_function_args_impl): Handle TI quatities.
